@@ -43,6 +43,3 @@ No app code changes.
 
 - **Product scripts (`scripts/*.py`)** — [MIT](LICENSE)
 - **Catalog & manifests (`manifests/*.json`)** — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
-
-This matches the noknok open-source stack: firmware/scripts = MIT, manifests/specs/docs =
-CC BY-SA 4.0. The noknok app and backend are not in this repo and remain proprietary.
