@@ -1,0 +1,45 @@
+{
+  "id": "light-sound-controller-v1",
+  "name": "Light & Sound Controller",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "Knob, LED Button and Buzzer working together. Turn the knob and press the button to drive light and sound. The first fully working noknok product.",
+
+  "modules_required": [
+    { "type": "knob",       "count": 1 },
+    { "type": "led_button", "count": 1 },
+    { "type": "buzzer",     "count": 1 }
+  ],
+
+  "module_firmware": {
+    "knob":       { "version": "1.5.0", "url": "https://github.com/buildwithnoknok/module-I2C-knob/releases/download/v1.5.0/knob_firmware.bin" },
+    "led_button": { "version": "1.0.0", "url": "https://github.com/buildwithnoknok/module-I2C-ledbutton/releases/download/v1.0.0/ledbutton_firmware.bin" },
+    "buzzer":     { "version": "3.1.0", "url": "https://github.com/buildwithnoknok/module-I2C-buzzer/releases/download/v3.1.0/buzzer_firmware.bin" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/trio_demo.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Knob, LED Button and Buzzer to the PicoHub I2C ports.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app."
+  ],
+
+  "roles": [
+    { "id": "main_knob",   "module_type": "knob",       "prompt": "Rotate the knob you want to use for control" },
+    { "id": "main_button", "module_type": "led_button", "prompt": "Press the button you want to use" }
+  ],
+
+  "config_schema": []
+}

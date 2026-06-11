@@ -1,0 +1,11 @@
+{
+  "catalog_version": "1.2.0",
+  "updated": "2026-06-05",
+  "products": [
+    { "id": "light-sound-controller-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/light-sound-controller.json" },
+    { "id": "chime-box-v1",               "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/chime-box.json" },
+    { "id": "two-button-box-v1",          "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/two-button-box.json" },
+    { "id": "desk-lamp-v1",               "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/desk-lamp.json" },
+    { "id": "desk-lamp-dimmer-v1",        "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/desk-lamp-dimmer.json" }
+  ]
+}

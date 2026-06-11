@@ -1,0 +1,46 @@
+{
+  "id": "desk-lamp-dimmer-v1",
+  "name": "Desk Lamp + Dimmer",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 2b (USB-C + I2C)",
+  "description": "A desk lamp with a physical dimmer. The USB LEDs module is the light, the Knob sets the brightness. Pick a colour in the app.",
+
+  "modules_required": [
+    { "type": "usb_leds", "count": 1 },
+    { "type": "knob",     "count": 1 }
+  ],
+
+  "module_firmware": {
+    "usb_leds": { "version": "1.0.0", "url": "https://github.com/buildwithnoknok/module-usb-led/releases/download/v1.0.0/usb_led_firmware.bin" },
+    "knob":     { "version": "1.5.0", "url": "https://github.com/buildwithnoknok/module-I2C-knob/releases/download/v1.5.0/knob_firmware.bin" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/desk_lamp_dimmer.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [ "housing_top.stl", "housing_bottom.stl" ],
+  "assembly_guide": [
+    "Connect the USB LEDs module to the DataHub.",
+    "Connect the Knob to a PicoHub I2C port.",
+    "Connect the DataHub to the PicoHub.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app."
+  ],
+
+  "roles": [
+    { "id": "brightness_knob", "module_type": "knob", "prompt": "Rotate the knob you want to use for brightness" }
+  ],
+
+  "config_schema": [
+    { "id": "color", "type": "color_picker", "label": "Light colour" }
+  ]
+}
