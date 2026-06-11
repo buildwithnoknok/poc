@@ -17,7 +17,7 @@
   "module_firmware": {
     "knob":       { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-knob/main/firmware/bin/knob_firmware.bin" },
     "led_button": { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-ledbutton/main/firmware/bin/keyboard_firmware.bin" },
-    "buzzer":     { "version": "3.3.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-buzzer/main/firmware/bin/buzzer_firmware.bin" }
+    "buzzer":     { "version": "3.3.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-buzzer/main/firmware/bin/buzzer_firmware.bin" }
   },
 
   "files": [
