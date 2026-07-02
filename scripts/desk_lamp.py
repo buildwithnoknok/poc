@@ -30,9 +30,16 @@ try:
 
     lamp = c.leds[0]
     _log("driving lamp uid=%s" % lamp._uid_hex)
+
+    v = lamp.version()
+    _log("GET_VERSION before commands: %s" % (v,))
+
     lamp.set_brightness(180)
     lamp.set_all(255, 200, 120)   # warm white
     _log("set_brightness(180) + set_all(255,200,120) sent OK")
+
+    v = lamp.version()
+    _log("GET_VERSION after commands: %s" % (v,))
 except Exception as e:
     _log("EXCEPTION: %s" % e)
     raise
