@@ -9,15 +9,33 @@
 
 from noknok import Conductor
 
-c = Conductor()
-c.enumerate_usb()
+# code.py doesn't capture product.py's own output in log.txt (it exec()s this
+# file separately), so log our own outcome there directly - otherwise a
+# failure here is invisible to anyone reading log.txt after the fact.
+def _log(msg):
+    try:
+        with open("log.txt", "a") as f:
+            f.write("[desk_lamp] " + str(msg) + "\n")
+    except Exception:
+        pass
 
-if not c.leds:
-    raise SystemExit("No USB LEDs module found — check wiring.")
+try:
+    c = Conductor()
+    n = c.enumerate_usb()
+    _log("enumerate_usb() found %d module(s)" % n)
 
-lamp = c.leds[0]
-lamp.set_brightness(180)
-lamp.set_all(255, 200, 120)   # warm white
+    if not c.leds:
+        _log("FAILED: no USB LEDs module in c.leds after enumeration")
+        raise SystemExit("No USB LEDs module found — check wiring.")
+
+    lamp = c.leds[0]
+    _log("driving lamp uid=%s" % lamp._uid_hex)
+    lamp.set_brightness(180)
+    lamp.set_all(255, 200, 120)   # warm white
+    _log("set_brightness(180) + set_all(255,200,120) sent OK")
+except Exception as e:
+    _log("EXCEPTION: %s" % e)
+    raise
 
 while True:
     pass
