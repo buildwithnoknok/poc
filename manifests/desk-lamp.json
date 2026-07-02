@@ -13,7 +13,7 @@
   ],
 
   "module_firmware": {
-    "usb_leds": { "version": "1.0.0", "url": "https://github.com/buildwithnoknok/module-usb-led/releases/download/v1.0.0/usb_led_firmware.bin" }
+    "usb_leds": { "version": "1.8.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-usb-led/main/firmware/bin/noknok_leds.bin" }
   },
 
   "files": [
