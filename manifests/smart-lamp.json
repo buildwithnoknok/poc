@@ -1,0 +1,52 @@
+{
+  "id": "smart-lamp-v1",
+  "name": "Smart Lamp",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 3 (USB-C + I2C)",
+  "description": "A configurable lamp: a USB LEDs module for light, a button to switch it on/off (long-press for a 30-minute sundown fade), one knob for brightness and one for colour, and a buzzer for confirmation sounds. Remembers its last setting.",
+
+  "modules_required": [
+    { "type": "usb_leds",   "count": 1 },
+    { "type": "led_button", "count": 1 },
+    { "type": "knob",       "count": 2 },
+    { "type": "buzzer",     "count": 1 }
+  ],
+
+  "module_firmware": {
+    "usb_leds":   { "version": "1.8.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-usb-led/main/firmware/bin/noknok_leds.bin" },
+    "led_button": { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-ledbutton/main/firmware/bin/keyboard_firmware.bin" },
+    "knob":       { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-knob/main/firmware/bin/knob_firmware.bin" },
+    "buzzer":     { "version": "3.3.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-buzzer/main/firmware/bin/buzzer_firmware.bin" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the USB LEDs module to the DataHub, and the DataHub to the PicoHub.",
+    "Connect the LED Button, both Knobs and the Buzzer to the PicoHub I2C ports.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app — you'll be asked which button and which knob does what."
+  ],
+
+  "roles": [
+    { "id": "power_button",    "module_type": "led_button", "prompt": "Press the button you want to use to switch the lamp on and off" },
+    { "id": "brightness_knob", "module_type": "knob",        "prompt": "Turn the knob you want to use for brightness" },
+    { "id": "color_knob",      "module_type": "knob",        "prompt": "Turn the knob you want to use for colour" }
+  ],
+
+  "config_schema": [
+    { "id": "default_brightness", "type": "slider", "label": "Default brightness", "min": 0, "max": 100 },
+    { "id": "sundown_minutes",    "type": "slider", "label": "Sundown fade length (minutes)", "min": 5, "max": 60 }
+  ]
+}
