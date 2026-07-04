@@ -30,7 +30,13 @@ from noknok import Conductor
 import time
 import json
 
-SETTINGS_FILE = "smart_lamp_settings.json"
+# One GENERIC settings file per device (a Pico runs one product at a time), so the
+# filename is product-agnostic — matches noknok's other on-device files (wifi.json,
+# noknok_roles.json, noknok_state.json) and lets a future /settings app endpoint
+# read/write it without knowing which product is installed. The product id is tagged
+# INSIDE the file so a product can ignore stale settings left by a previous product.
+SETTINGS_FILE = "product_settings.json"
+PRODUCT_ID    = "smart-lamp-v1"
 
 
 def _log(msg):
@@ -83,6 +89,11 @@ def load_settings():
     try:
         with open(SETTINGS_FILE) as f:
             saved = json.load(f)
+        # Ignore settings left behind by a different product (stale after a switch).
+        if saved.get("product") not in (None, PRODUCT_ID):
+            _log("settings file belongs to %s, not %s - ignoring"
+                 % (saved.get("product"), PRODUCT_ID))
+            return
         for k in ("on", "brightness", "color_index"):
             if k in saved:
                 state[k] = saved[k]
@@ -104,9 +115,11 @@ def maybe_save():
     global _dirty
     if _dirty and (time.monotonic() - _last_change) >= SAVE_DEBOUNCE_S:
         try:
+            record = {"product": PRODUCT_ID}
+            record.update(state)
             with open(SETTINGS_FILE, "w") as f:
-                json.dump(state, f)
-            _log("settings saved: %s" % state)
+                json.dump(record, f)
+            _log("settings saved: %s" % record)
         except Exception as e:
             _log("settings save failed: %s" % e)
         _dirty = False
