@@ -29,22 +29,11 @@ try:
         raise SystemExit("No USB LEDs module found — check wiring.")
 
     lamp = c.leds[0]
-    _log("driving lamp uid=%s" % lamp._uid_hex)
+    _log("driving lamp uid=%s fw=%s" % (lamp._uid_hex, lamp.firmware_version))
 
-    v = lamp.version()
-    _log("GET_VERSION before commands: %s" % (v,))
-
-    # set_brightness/set_all are fire-and-forget - the firmware never replies to
-    # them (only 0xB1 GET_VERSION does), so a write completing without an
-    # exception does NOT confirm the module received or acted on it. Polling
-    # GET_VERSION right after each one is the closest indirect confirmation
-    # available: it at least proves the module is still alive and answering
-    # immediately after that specific command, without needing a firmware change.
     lamp.set_brightness(180)
-    _log("set_brightness(180) sent; GET_VERSION after: %s" % (lamp.version(),))
-
     lamp.set_all(255, 200, 120)   # warm white
-    _log("set_all(255,200,120) sent; GET_VERSION after: %s" % (lamp.version(),))
+    _log("lamp on (warm white, brightness 180)")
 except Exception as e:
     _log("EXCEPTION: %s" % e)
     raise
