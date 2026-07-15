@@ -32,7 +32,7 @@
   "3d_files": [],
   "assembly_guide": [
     "Connect all 10 LED Buttons, the Buzzer and the Knob to the PicoHub I2C ports (use Qwiic branches / a hub to fan out — they all share one I2C bus).",
-    "Because 10 lit LEDs draw real current, power the Pico from the 5 V rail via a PowerHub rather than USB-from-a-laptop.",
+    "The game lights only one LED at a time, so it runs on standard USB power — no PowerHub needed.",
     "Plug the Pico into power.",
     "Run setup in the noknok app — no role assignment needed; every button is a mole hole.",
     "Turn the Knob to pick a difficulty, then press it to start."

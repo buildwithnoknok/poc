@@ -8,7 +8,7 @@
 # you have to whack it (press it) before it disappears. The game speeds up as
 # your score climbs.
 #
-#   Menu:  turn the Knob → pick a difficulty (1-5, shown as a lit bar)
+#   Menu:  turn the Knob → pick a difficulty (1-5, shown as one colour-coded LED)
 #          press the Knob → start a 30-second round
 #   Play:  a random button lights amber → press it before it goes dark
 #          hit  → green flash + OK beep, +1 point, moles get faster
@@ -50,12 +50,21 @@ GAP_MS      = 220                # pause between moles
 RAMP_MS     = 25                 # each point shaves this much off the up-time…
 RAMP_FLOOR  = 0.45               # …but never below 45% of the level's base time
 
-# Colours (R, G, B — 0-255 each). The SK6812 LED is bright, so keep idle dim.
-IDLE  = (2, 2, 2)        # faint white — shows the hole is alive
+# Colours (R, G, B — 0-255 each). To keep power draw low we NEVER light more than
+# ONE LED at a time (no idle glow, no lit bar), so a single lit LED is the worst
+# case — the game runs fine on plain USB power without a PowerHub.
 MOLE  = (255, 90, 0)     # amber — a mole is up, whack it!
 HIT   = (0, 255, 0)      # green flash — you got it
 MISS  = (120, 0, 0)      # red flash — it got away
-LEVEL = (0, 40, 90)      # cyan — difficulty bar in the menu
+
+# Difficulty 1-5 shown as the colour of ONE indicator LED in the menu (green→red).
+LEVEL_COLORS = {
+    1: (0, 90, 0),     # green  — easy
+    2: (0, 70, 70),    # cyan
+    3: (0, 0, 110),    # blue
+    4: (110, 60, 0),   # amber
+    5: (150, 0, 0),    # red    — hard
+}
 
 
 # ── Small helpers ─────────────────────────────────────────────────────────────
@@ -78,11 +87,15 @@ def beep(tune_id):
 
 
 # ── Menu: pick difficulty, then start ─────────────────────────────────────────
+# Power note: the menu lights only ONE LED — a single indicator hole (moles[0])
+# whose COLOUR encodes the difficulty. No lit bar, no idle glow.
 def choose_level():
     """Return a difficulty 1-5. Knob turns to choose, knob press starts.
-    With no knob, show a gentle idle glow and start on any button press."""
+    With no knob, start on any button press at the default level."""
     level = 2
-    show_level_bar(level)
+    indicator = moles[0]
+    all_off()
+    indicator.set_color(*LEVEL_COLORS[level])
     if buz:
         buz.tune(buz.STARTUP)   # "ready" chime
 
@@ -94,25 +107,22 @@ def choose_level():
                 c.check_factory_reset(ks)
                 if ks.delta:
                     level = max(1, min(5, level + ks.delta))
-                    show_level_bar(level)
+                    indicator.set_color(*LEVEL_COLORS[level])
                     beep(buz.BEEP_OK) if buz else None
                 if ks.pressed:
                     # wait for release so the press doesn't leak into the game
                     while knob.is_pressed:
                         time.sleep(0.02)
+                    indicator.led_off()
                     return level
         else:
             # No knob → any button press starts at the default level.
             for m in moles:
                 s = m.read()
                 if s is not None and s.press_event:
+                    indicator.led_off()
                     return level
         time.sleep(0.03)
-
-def show_level_bar(level):
-    """Light the first `level` holes cyan, the rest idle — a screen-free gauge."""
-    for i, m in enumerate(moles):
-        m.set_color(*(LEVEL if i < level else IDLE))
 
 
 # ── One round ─────────────────────────────────────────────────────────────────
