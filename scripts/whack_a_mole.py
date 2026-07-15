@@ -9,12 +9,14 @@
 # your score climbs.
 #
 #   Menu:  turn the Knob → pick a difficulty (1-5, shown as one colour-coded LED)
-#          press the Knob → start a 30-second round
+#          tap the Knob → start a 30-second round
+#          hold the Knob ~5 s → factory reset (standard noknok reset: an LED
+#          button warns amber at 3 s, turns red at 5 s, then wipes & reboots
+#          into noknok-setup so the product can be re-flashed to something else)
 #   Play:  a random button lights amber → press it before it goes dark
 #          hit  → green flash + OK beep, +1 point, moles get faster
 #          miss → red flash (the mole got away)
 #   End:   the buzzer counts up your score with a rising tune + light chase
-#   Any time: hold the Knob button ~5 s → factory reset (back to noknok-setup)
 #
 # The buttons are treated *symmetrically* — the game just uses c.ledbutton (the
 # whole list), so there is NO per-button role assignment. Plug in any number of
@@ -100,21 +102,32 @@ def choose_level():
         buz.tune(buz.STARTUP)   # "ready" chime
 
     while True:
-        # Factory reset (hold knob ~5 s) works from the menu too.
         if knob:
             ks = knob.read()
             if ks is not None:
+                # Not pressed → this call keeps the reset hold-timer cleared.
                 c.check_factory_reset(ks)
                 if ks.delta:
                     level = max(1, min(5, level + ks.delta))
                     indicator.set_color(*LEVEL_COLORS[level])
                     beep(buz.BEEP_OK) if buz else None
                 if ks.pressed:
-                    # wait for release so the press doesn't leak into the game
-                    while knob.is_pressed:
-                        time.sleep(0.02)
-                    indicator.led_off()
-                    return level
+                    # A knob press is EITHER a start-tap OR the beginning of a 5 s
+                    # factory-reset hold. Keep feeding check_factory_reset() the
+                    # whole time it's held so the standard reset runs (amber warning
+                    # at 3 s, red + wipe/reboot at 5 s). Released before the 3 s
+                    # warning → start the round; released after (having seen amber)
+                    # → back out and stay in the menu.
+                    press_start = time.monotonic()
+                    held = ks
+                    while held is not None and held.pressed:
+                        c.check_factory_reset(held)   # reboots at 5 s (never returns)
+                        time.sleep(0.03)
+                        held = knob.read()
+                    if time.monotonic() - press_start < 3.0:
+                        indicator.led_off()
+                        return level                  # short press → start
+                    indicator.set_color(*LEVEL_COLORS[level])  # aborted reset → restore
         else:
             # No knob → any button press starts at the default level.
             for m in moles:
