@@ -1,0 +1,44 @@
+{
+  "id": "whack-a-mole-v1",
+  "name": "Whack-a-Mole",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A screen-free arcade game: ten LED Buttons are mole holes, and one lights up at random for you to whack before it disappears. A Knob sets the difficulty and starts the round, and a Buzzer keeps score with beeps and tunes. The moles get faster the better you do. No app screen needed once it's running.",
+
+  "modules_required": [
+    { "type": "led_button", "count": 10 },
+    { "type": "buzzer",     "count": 1 },
+    { "type": "knob",       "count": 1 }
+  ],
+
+  "module_firmware": {
+    "led_button": { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-ledbutton/main/firmware/bin/keyboard_firmware.bin" },
+    "buzzer":     { "version": "3.3.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-buzzer/main/firmware/bin/buzzer_firmware.bin" },
+    "knob":       { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-knob/main/firmware/bin/knob_firmware.bin" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/whack_a_mole.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect all 10 LED Buttons, the Buzzer and the Knob to the PicoHub I2C ports (use Qwiic branches / a hub to fan out — they all share one I2C bus).",
+    "Because 10 lit LEDs draw real current, power the Pico from the 5 V rail via a PowerHub rather than USB-from-a-laptop.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app — no role assignment needed; every button is a mole hole.",
+    "Turn the Knob to pick a difficulty, then press it to start."
+  ],
+
+  "roles": [],
+
+  "config_schema": []
+}

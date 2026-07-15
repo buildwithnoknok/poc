@@ -1,12 +1,13 @@
 {
-  "catalog_version": "1.3.0",
-  "updated": "2026-07-04",
+  "catalog_version": "1.4.0",
+  "updated": "2026-07-15",
   "products": [
     { "id": "light-sound-controller-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/light-sound-controller.json" },
     { "id": "chime-box-v1",               "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/chime-box.json" },
     { "id": "two-button-box-v1",          "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/two-button-box.json" },
     { "id": "desk-lamp-v1",               "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/desk-lamp.json" },
     { "id": "desk-lamp-dimmer-v1",        "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/desk-lamp-dimmer.json" },
-    { "id": "smart-lamp-v1",              "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-lamp.json" }
+    { "id": "smart-lamp-v1",              "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-lamp.json" },
+    { "id": "whack-a-mole-v1",            "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/whack-a-mole.json" }
   ]
 }
