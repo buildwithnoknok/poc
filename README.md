@@ -4,28 +4,21 @@ This repository hosts the **public data files** consumed by the noknok PoC app a
 runtime. It is intentionally separate from the app source code (which stays private):
 the app downloads these files over HTTPS, so they must be publicly readable.
 
-> Note: this repo is currently named `poc-1` while it is being prepared. It will be
-> renamed to **`poc`** and made public. All URLs below already use `.../poc/main/...`
-> so they resolve correctly once the rename + visibility flip happen — no app change
-> is required.
-
 ## What's in here
 
 ```
 manifests/
-  catalog.json                  # index of all PoC products (the app fetches this first)
-  light-sound-controller.json   # per-product manifests, referenced by catalog.json
-  chime-box.json
-  two-button-box.json
-  desk-lamp.json
-  desk-lamp-dimmer.json
+  catalog.json                  # index of all products (the app fetches this first)
+  smart-lamp.json               # per-product manifests, referenced by catalog.json
+  whack-a-mole.json
 scripts/
-  trio_demo.py                  # product.py scripts the Pico downloads + runs
-  chime_box.py
-  two_button_box.py
-  desk_lamp.py
-  desk_lamp_dimmer.py
+  smart_lamp.py                 # product.py scripts the Pico downloads + runs
+  whack_a_mole.py
 ```
+
+The earlier trio demos (light-sound-controller, chime-box, two-button-box,
+desk-lamp, desk-lamp-dimmer) were bring-up scaffolding and were retired in
+Sep 2026; they remain in git history.
 
 ## How the app uses it
 

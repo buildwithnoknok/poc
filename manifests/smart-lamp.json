@@ -16,10 +16,10 @@
   ],
 
   "module_firmware": {
-    "usb_leds":   { "version": "1.8.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-usb-led/main/firmware/bin/noknok_leds.bin" },
-    "led_button": { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-ledbutton/main/firmware/bin/keyboard_firmware.bin" },
-    "knob":       { "version": "2.1.0", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-knob/main/firmware/bin/knob_firmware.bin" },
-    "buzzer":     { "version": "3.3.1", "url": "https://raw.githubusercontent.com/buildwithnoknok/module-I2C-buzzer/main/firmware/bin/buzzer_firmware.bin" }
+    "usb_leds":   { "min": "1.8.1" },
+    "led_button": { "min": "2.1.0" },
+    "knob":       { "min": "2.1.0" },
+    "buzzer":     { "min": "3.3.1" }
   },
 
   "files": [
