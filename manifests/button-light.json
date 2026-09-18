@@ -1,7 +1,7 @@
 {
   "id": "button-light-v1",
   "name": "Button Light",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "buildwithnoknok",
   "brain_type": "pico_w",
   "price": 0.0,
@@ -30,6 +30,12 @@
     "Connect the LED Button to the PicoHub with a JST SH cable.",
     "Plug the Pico into power.",
     "Run setup in the noknok app."
+  ],
+
+  "controls": [
+    { "control": "Button press",                  "action": "Light on / off" },
+    { "control": "Button LED",                    "action": "The light itself — pick its colour and brightness in the app" },
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes and goes dark (about 8 s)" }
   ],
 
   "roles": [],

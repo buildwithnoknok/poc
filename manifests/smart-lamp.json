@@ -46,7 +46,7 @@
     { "control": "Knob turn",                     "action": "Colour — 64 colours, wraps around" },
     { "control": "Knob tap",                      "action": "Warm white" },
     { "control": "Buzzer",                        "action": "Clicks per brightness step, a low tone for off, a short melody for sundown" },
-    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes and the buzzer sounds (about 8 s)" }
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes, goes dark and the buzzer sounds (about 8 s)" }
   ],
 
   "roles": [],

@@ -39,7 +39,7 @@
     { "control": "Button short press",            "action": "Next brightness: off → 1 → 2 → 3 → 4 → 5 → off" },
     { "control": "Button hold (1 s)",             "action": "Next colour — one step per hold, 12 colours" },
     { "control": "Button LED",                    "action": "Shows the lamp colour while the lamp is on" },
-    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes (about 8 s)" }
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes and goes dark (about 8 s)" }
   ],
 
   "roles": [],
