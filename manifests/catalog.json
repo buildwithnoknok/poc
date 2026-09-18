@@ -1,8 +1,9 @@
 {
-  "catalog_version": "2.1.0",
-  "updated": "2026-09-17",
+  "catalog_version": "2.2.0",
+  "updated": "2026-09-18",
   "products": [
     { "id": "smart-lamp-v1",   "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-lamp.json" },
-    { "id": "whack-a-mole-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/whack-a-mole.json" }
+    { "id": "whack-a-mole-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/whack-a-mole.json" },
+    { "id": "button-light-v1",  "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/button-light.json" }
   ]
 }

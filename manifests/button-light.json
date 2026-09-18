@@ -1,0 +1,42 @@
+{
+  "id": "button-light-v1",
+  "name": "Button Light",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "The smallest noknok product: one LED Button as a little light. Press it to switch on and off; pick its colour and brightness in the app. Also the demo product for app settings.",
+
+  "modules_required": [
+    { "type": "led_button", "count": 1 }
+  ],
+
+  "module_firmware": {
+    "led_button": { "min": "2.1.0" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/button_light.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the LED Button to the PicoHub with a JST SH cable.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app."
+  ],
+
+  "roles": [],
+
+  "config_schema": [
+    { "id": "on",         "type": "toggle", "label": "Light on",   "default": true },
+    { "id": "color",      "type": "color",  "label": "Colour",     "default": "#00FF40" },
+    { "id": "brightness", "type": "slider", "label": "Brightness", "min": 0, "max": 255, "step": 5, "default": 40 }
+  ]
+}
