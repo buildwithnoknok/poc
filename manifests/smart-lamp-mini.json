@@ -1,0 +1,52 @@
+{
+  "id": "smart-lamp-mini-v1",
+  "name": "Smart Lamp Mini",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 3 (USB-C + I2C)",
+  "description": "The smallest Smart Lamp: a USB LEDs module for light and one LED Button for everything else. Short press steps through five brightness levels and off; hold it for a second to change the colour. Pick any colour or brightness in the app.",
+
+  "modules_required": [
+    { "type": "usb_leds",   "count": 1 },
+    { "type": "led_button", "count": 1 }
+  ],
+
+  "module_firmware": {
+    "usb_leds":   { "min": "1.8.1" },
+    "led_button": { "min": "2.1.0" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp_mini.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the USB LEDs module to the DataHub, and the DataHub to the PicoHub.",
+    "Connect the LED Button to a PicoHub I2C port.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app."
+  ],
+
+  "controls": [
+    { "control": "Button short press",            "action": "Next brightness: off → 1 → 2 → 3 → 4 → 5 → off" },
+    { "control": "Button hold (1 s)",             "action": "Next colour — one step per hold, 12 colours" },
+    { "control": "Button LED",                    "action": "Shows the lamp colour while the lamp is on" },
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes (about 8 s)" }
+  ],
+
+  "roles": [],
+
+  "config_schema": [
+    { "id": "on",         "type": "toggle", "label": "Lamp on",     "default": true },
+    { "id": "brightness", "type": "slider", "label": "Brightness",  "min": 0, "max": 255, "step": 1, "default": 120, "help": "The button steps through 5 levels; set any value here." },
+    { "id": "color",      "type": "color",  "label": "Lamp colour", "default": "#FFAF5F", "help": "Holding the button steps through 12 preset colours; pick any colour here." }
+  ]
+}

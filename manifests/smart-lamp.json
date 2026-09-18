@@ -1,17 +1,17 @@
 {
   "id": "smart-lamp-v1",
-  "name": "Smart Lamp",
-  "version": "1.1.0",
+  "name": "Smart Lamp Midi",
+  "version": "2.0.0",
   "author": "buildwithnoknok",
   "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
-  "description": "A configurable lamp: a USB LEDs module for light, a button to switch it on/off (long-press for a 30-minute sundown fade), one knob for brightness and one for colour, and a buzzer for confirmation sounds. Remembers its last setting.",
+  "description": "A configurable lamp: a USB LEDs module for light, an LED Button for brightness (five levels and off) and mode, a knob for colour, and a buzzer for confirmation sounds. Hold the button for a second to switch to sundown mode — the lamp then fades gently to off over 30 minutes whenever it is on. Remembers its last setting.",
 
   "modules_required": [
     { "type": "usb_leds",   "count": 1 },
     { "type": "led_button", "count": 1 },
-    { "type": "knob",       "count": 2 },
+    { "type": "knob",       "count": 1 },
     { "type": "buzzer",     "count": 1 }
   ],
 
@@ -26,7 +26,7 @@
     {
       "dest": "product.py",
       "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp.py",
-      "version": "1.1.0",
+      "version": "2.0.0",
       "required": true
     }
   ],
@@ -34,21 +34,30 @@
   "3d_files": [],
   "assembly_guide": [
     "Connect the USB LEDs module to the DataHub, and the DataHub to the PicoHub.",
-    "Connect the LED Button, both Knobs and the Buzzer to the PicoHub I2C ports.",
+    "Connect the LED Button, the Knob and the Buzzer to the PicoHub I2C ports.",
     "Plug the Pico into power.",
-    "Run setup in the noknok app — you'll be asked which button and which knob does what."
+    "Run setup in the noknok app."
   ],
 
-  "roles": [
-    { "id": "power_button",    "module_type": "led_button", "prompt": "Press the button you want to use to switch the lamp on and off" },
-    { "id": "brightness_knob", "module_type": "knob",        "prompt": "Turn the knob you want to use for brightness" },
-    { "id": "color_knob",      "module_type": "knob",        "prompt": "Turn the knob you want to use for colour" }
+  "controls": [
+    { "control": "Button short press",            "action": "Next brightness: off → 1 → 2 → 3 → 4 → 5 → off" },
+    { "control": "Button hold (1 s)",             "action": "Switch mode: light ↔ sundown. Sundown: the lamp fades to off over 30 minutes whenever it is on" },
+    { "control": "Button LED",                    "action": "Shows the lamp colour while on. After a mode switch: breathes 3× = sundown, steady = light" },
+    { "control": "Knob turn",                     "action": "Colour — 64 colours, wraps around" },
+    { "control": "Knob tap",                      "action": "Warm white" },
+    { "control": "Buzzer",                        "action": "Clicks per brightness step, a low tone for off, a short melody for sundown" },
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes and the buzzer sounds (about 8 s)" }
   ],
+
+  "roles": [],
 
   "config_schema": [
-    { "id": "on",              "type": "toggle", "label": "Lamp on",        "default": true },
-    { "id": "brightness",      "type": "slider", "label": "Brightness",     "min": 0, "max": 255, "step": 1, "default": 180 },
-    { "id": "color",           "type": "color",  "label": "Lamp colour",    "default": "#FFAF5F", "help": "The colour knob steps through 64 preset colours; pick any colour here." },
-    { "id": "sundown_minutes", "type": "slider", "label": "Sundown fade",   "min": 5, "max": 60, "step": 5, "unit": "min", "default": 30, "help": "Hold the power button for one second to start the fade." }
+    { "id": "on",              "type": "toggle", "label": "Lamp on",       "default": true },
+    { "id": "brightness",      "type": "slider", "label": "Brightness",    "min": 0, "max": 255, "step": 1, "default": 120, "help": "The button steps through 5 levels; set any value here." },
+    { "id": "color",           "type": "color",  "label": "Lamp colour",   "default": "#FFAF5F", "help": "The knob steps through 64 preset colours; pick any colour here." },
+    { "id": "mode",            "type": "select", "label": "Mode",          "default": "light",
+      "options": [ { "value": "light", "label": "Light" }, { "value": "sundown", "label": "Sundown" } ],
+      "help": "Sundown: the lamp fades to off whenever it is on. Hold the button for one second to switch." },
+    { "id": "sundown_minutes", "type": "slider", "label": "Sundown fade",  "min": 5, "max": 60, "step": 5, "unit": "min", "default": 30 }
   ]
 }
