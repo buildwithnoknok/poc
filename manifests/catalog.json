@@ -1,7 +1,8 @@
 {
-  "catalog_version": "2.3.0",
-  "updated": "2026-09-18",
+  "catalog_version": "2.4.0",
+  "updated": "2026-10-02",
   "products": [
+    { "id": "multicolor-lamp-16x-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/multicolor-lamp-16x.json" },
     { "id": "smart-lamp-mini-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-lamp-mini.json" },
     { "id": "smart-lamp-v1",      "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-lamp.json" },
     { "id": "whack-a-mole-v1",    "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/whack-a-mole.json" },

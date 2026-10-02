@@ -1,0 +1,60 @@
+{
+  "id": "multicolor-lamp-16x-v1",
+  "name": "Multicolor Lamp 16x",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 2 (USB-C only)",
+  "description": "A lamp built on the LEDs 16x ring. Every LED has its own white light, so it gives a clean neutral white as well as any colour, or a colour softened with white. Control it from the app, which also shows the ring's temperature and tells you when it dims itself to stay cool.",
+
+  "modules_required": [
+    { "type": "usb_leds_16x", "count": 1 }
+  ],
+
+  "module_firmware": {
+    "usb_leds_16x": { "min": "2.2.0" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/multicolor_lamp_16x.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the LEDs 16x module to the DataHub, and the DataHub to the PicoHub.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app."
+  ],
+
+  "controls": [
+    { "control": "noknok app",    "action": "On/off, brightness, light mode, colour and white amount" },
+    { "control": "Factory reset", "action": "From the app (this lamp has no buttons)" }
+  ],
+
+  "roles": [],
+
+  "config_schema": [
+    { "id": "on",         "type": "toggle", "label": "Lamp on",    "default": true },
+    { "id": "brightness", "type": "slider", "label": "Brightness", "min": 0, "max": 255, "step": 1, "default": 120 },
+    { "id": "mode",       "type": "select", "label": "Light",      "default": "white",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "color", "label": "Colour" },
+        { "value": "mix",   "label": "Colour + white" }
+      ],
+      "help": "White uses the ring's own white LEDs: clean and efficient." },
+    { "id": "color",      "type": "color",  "label": "Colour",     "default": "#FFAF5F", "group": "Colour",
+      "help": "Used in Colour and Colour + white." },
+    { "id": "white",      "type": "slider", "label": "White amount", "min": 0, "max": 255, "step": 1, "default": 160, "group": "Colour",
+      "help": "How much white is mixed in (Colour + white only)." },
+    { "id": "temperature", "type": "info",  "label": "Temperature", "unit": "°C", "decimals": 1, "group": "Status",
+      "help": "Chip temperature of the LED ring. It dims itself from 55 °C." },
+    { "id": "light",       "type": "info",  "label": "Light",       "group": "Status" }
+  ]
+}
