@@ -1,0 +1,80 @@
+{
+  "id": "smart-lamp-maxi-v1",
+  "name": "Smart Lamp Maxi",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 3 (USB-C + I2C)",
+  "description": "The fully stacked Smart Lamp: a lamp, a bedside clock, a kitchen timer and a wake-up light in one. The display shows the time, the knob sets brightness and colour, the button switches the light on and off or starts a gentle sundown fade. Set an alarm and the lamp slowly brightens like a sunrise before it rings.",
+
+  "modules_required": [
+    { "type": "usb_leds_16x", "count": 1 },
+    { "type": "led_button",   "count": 1 },
+    { "type": "knob",         "count": 1 },
+    { "type": "buzzer",       "count": 1 },
+    { "type": "display",      "count": 1 }
+  ],
+
+  "module_firmware": {
+    "usb_leds_16x": { "min": "2.2.0" },
+    "led_button":   { "min": "2.1.0" },
+    "knob":         { "min": "2.1.0" },
+    "buzzer":       { "min": "3.3.1" },
+    "display":      { "min": "0.7.0" }
+  },
+
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp_maxi.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the USB LEDs 16x module to the PicoHub's USB port.",
+    "Connect the LED Button, the Knob, the Buzzer and the Display to the PicoHub I2C ports.",
+    "Plug the Pico into power.",
+    "Run setup in the noknok app, then pick your time zone on the lamp's settings page."
+  ],
+
+  "controls": [
+    { "control": "Button short press",            "action": "Lamp on / off" },
+    { "control": "Button hold (1 s)",             "action": "Sundown: the lamp fades gently to off over the sundown time" },
+    { "control": "Button LED",                    "action": "Shows the lamp colour while the lamp is on" },
+    { "control": "Knob turn",                     "action": "Brightness — or colour after a tap. The framed bar on the display shows which" },
+    { "control": "Knob tap",                      "action": "Switch the knob between brightness and colour (back to brightness after 5 s)" },
+    { "control": "Knob hold (2 s)",               "action": "Menu: Timer, Alarm, Sundown, Reset lamp. Turn to choose, tap to confirm, hold to leave" },
+    { "control": "Timer or alarm ringing",        "action": "Button press = stop the timer / snooze the alarm 5 min. Hold the button = stop the alarm" },
+    { "control": "Hold button while plugging in", "action": "Factory reset — keep holding until the LED flashes, goes dark and the buzzer sounds (about 8 s)" }
+  ],
+
+  "roles": [],
+
+  "config_schema": [
+    { "id": "on",              "type": "toggle", "label": "Lamp on",       "default": true,      "group": "Lamp" },
+    { "id": "brightness",      "type": "slider", "label": "Brightness",    "min": 8, "max": 255, "step": 1, "default": 120, "group": "Lamp" },
+    { "id": "color",           "type": "color",  "label": "Lamp colour",   "default": "#FFAF5F", "group": "Lamp", "help": "Turning the knob in colour mode steps through 64 preset colours; pick any colour here." },
+    { "id": "sundown_minutes", "type": "slider", "label": "Sundown fade",  "min": 5, "max": 60, "step": 5, "unit": "min", "default": 30, "group": "Lamp" },
+    { "id": "alarm_on",        "type": "toggle", "label": "Alarm",         "default": false,     "group": "Wake-up light" },
+    { "id": "alarm_time",      "type": "time",   "label": "Alarm time",    "default": "07:00",   "group": "Wake-up light" },
+    { "id": "sunrise_minutes", "type": "slider", "label": "Sunrise",       "min": 5, "max": 60, "step": 5, "unit": "min", "default": 15, "group": "Wake-up light", "help": "The lamp brightens from dark to your brightness over this time before the alarm rings." },
+    { "id": "timezone",        "type": "select", "label": "Time zone",     "default": "cet",     "group": "Clock",
+      "options": [
+        { "value": "utc",  "label": "UTC" },
+        { "value": "uk",   "label": "UK, Ireland, Portugal" },
+        { "value": "cet",  "label": "Central Europe (CH, DE, FR, IT, ES ...)" },
+        { "value": "eet",  "label": "Eastern Europe (FI, GR, RO ...)" },
+        { "value": "us_e", "label": "US Eastern" },
+        { "value": "us_c", "label": "US Central" },
+        { "value": "us_m", "label": "US Mountain" },
+        { "value": "us_p", "label": "US Pacific" },
+        { "value": "jp",   "label": "Japan, Korea" }
+      ],
+      "help": "Summer time is switched automatically." },
+    { "id": "clock",           "type": "info",   "label": "Lamp clock",    "group": "Clock", "help": "The time the lamp shows. Needs WiFi at power-on." }
+  ]
+}
