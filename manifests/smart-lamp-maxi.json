@@ -1,7 +1,7 @@
 {
   "id": "smart-lamp-maxi-v1",
   "name": "Smart Lamp Maxi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "buildwithnoknok",
   "brain_type": "pico_w",
   "price": 0.0,
@@ -28,7 +28,7 @@
     {
       "dest": "product.py",
       "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp_maxi.py",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "required": true
     }
   ],
@@ -43,8 +43,8 @@
 
   "controls": [
     { "control": "Button short press",            "action": "Lamp on / off" },
-    { "control": "Button hold (1 s)",             "action": "Sundown: the lamp fades gently to off over the sundown time" },
-    { "control": "Button LED",                    "action": "Shows the lamp colour while the lamp is on" },
+    { "control": "Button hold (1 s)",             "action": "Sundown: the lamp fades gently to off over the sundown time, then the display dims for the night" },
+    { "control": "Button LED",                    "action": "Dark. Shows a new colour for 3 s after you change it" },
     { "control": "Knob turn",                     "action": "Brightness — or colour after a tap. The framed bar on the display shows which" },
     { "control": "Knob tap",                      "action": "Switch the knob between brightness and colour (back to brightness after 5 s)" },
     { "control": "Knob hold (2 s)",               "action": "Menu: Timer, Alarm, Sundown, Reset lamp. Turn to choose, tap to confirm, hold to leave" },

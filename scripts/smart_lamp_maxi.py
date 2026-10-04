@@ -1,18 +1,20 @@
 # SPDX-License-Identifier: MIT
-# smart_lamp_maxi.py — noknok Smart Lamp Maxi (Setup 3: USB LEDs + I2C controls + Display)  v1.0.0
+# smart_lamp_maxi.py — noknok Smart Lamp Maxi (Setup 3: USB LEDs + I2C controls + Display)  v1.1.0
 #
 # The top lamp of the Smart Lamp family: lamp + clock + kitchen timer + wake-up
 # light. Modules: LEDs 16x (or 8x), LED Button, Knob, Buzzer, Display.
 #
 #   Home screen (160x80): big clock, info line (timer / sundown / alarm),
 #   bell when the alarm is armed, colour swatch + brightness bar. The one the
-#   knob is currently changing has a white frame.
+#   knob is currently changing has a white frame. Backlight: 60 % with the
+#   lamp on, 15 % off, its lowest level after a Sundown (night) until the
+#   lamp is switched on again.
 #
 #   Button
 #     - short press      -> lamp on / off
 #     - hold (1 s)       -> Sundown: fade from the current brightness to off
 #                           over sundown_minutes (eased, stepped from here)
-#     - its RGB LED      -> status light: lamp colour when on, dark when off
+#     - its RGB LED      -> dark; shows a new colour for 3 s after a change
 #     - while ringing    -> timer: stop. Alarm: short = snooze 5 min, hold = stop
 #   Knob (home screen)
 #     - turn             -> brightness (or colour, after a tap)
@@ -165,6 +167,11 @@ RING_MAX_S       = {"timer": 5 * 60, "alarm": 10 * 60}   # stop ringing by itsel
 SUNRISE_STEP_S   = 2.0     # how often the wake-up light may change brightness
 BACKLIGHT_ON     = 0.6     # display backlight while the lamp is on
 BACKLIGHT_OFF    = 0.15    # dimmer while the lamp is off (bedside)
+BACKLIGHT_NIGHT  = 3 / 255  # after a Sundown: dimmest real level (a FRACTION:
+                            # backlight(1) would mean 100 %, not raw 1). Raw 1-2 are
+                            # BRIGHTER than 3 on the panel: 60-150 ns PWM pulses leave
+                            # the backlight MOSFET half-on (bench 4 Oct).
+STATUS_SHOW_S    = 3.0     # button LED shows a new colour this long, then dark
 LOOP_SLEEP_S     = 0.03
 LAMP_REFRESH_S   = 10.0    # re-send the full lamp state this often while on
 LAMP_COALESCE_S  = 0.12    # knob turns: at most one LEDs update this often
@@ -247,6 +254,7 @@ alarm_fired   = None    # (year, yday, alarm minute) last rung — once per day 
 
 knob_mode     = "bri"   # home screen: "bri" or "col"
 lamp_dirty    = False   # a knob turn changed the lamp; sent from the loop
+night_dim     = False   # display at night level until the lamp is switched on again
 knob_used_at  = 0.0
 screen        = "home"  # "home" / "menu" / "edit"
 menu_idx      = 0
@@ -291,7 +299,9 @@ def lamp_preset(lamp, preset, speed, r, g, b):
 def apply_output(changed=None):
     """Push the settings to every LEDs module and the status LED. Also the
     on_change target (the app changed something)."""
-    global sundown_end, sundown_start, sundown_level
+    global sundown_end, sundown_start, sundown_level, status_until
+    if changed and "color" in changed:   # a new colour from the app: show it
+        status_until = time.monotonic() + STATUS_SHOW_S
     if ringing == "timer":               # the pulse owns the lamp until stopped
         paint_status()
         return
@@ -339,7 +349,7 @@ def push_lamp(level):
 _sundown_sent = 0.0
 
 def service_sundown(now):
-    global sundown_end, sundown_level, _sundown_sent
+    global sundown_end, sundown_level, _sundown_sent, night_dim
     if sundown_end is None or ringing == "timer":
         return
     total = sundown_end - sundown_start
@@ -349,6 +359,7 @@ def service_sundown(now):
     level = BRIGHT_MIN + int((top - BRIGHT_MIN) * (1.0 - p) * (1.0 - p))
     if p >= 1.0:
         sundown_end = None
+        night_dim = True                 # it is bedtime: display to its lowest level
         s.set("on", False)               # the app agrees: the lamp is off
         apply_output()
         print("[maxi] sundown finished -> off")
@@ -357,11 +368,26 @@ def service_sundown(now):
         _sundown_sent = now
         push_lamp(level)
 
+# Button LED: dark by default (bedside). After a colour change it shows the new
+# colour for STATUS_SHOW_S, then goes dark again (Christopher, 4 Oct).
+status_until = 0.0
+_status_shown = None      # what the button LED shows now, to skip repeat writes
+
+def show_color_on_button():
+    global status_until
+    status_until = time.monotonic() + STATUS_SHOW_S
+    paint_status()
+
 def paint_status():
+    global _status_shown
     if button is None:
         return
-    if lamp_on():
-        button.set_color(*color_rgb())
+    want = color_rgb() if (lamp_on() and time.monotonic() < status_until) else None
+    if want == _status_shown:
+        return
+    _status_shown = want
+    if want:
+        button.set_color(*want)
     else:
         button.led_off()
 
@@ -558,8 +584,12 @@ def _info_text(now):
 _backlight = None
 
 def paint_home(now):
-    global _backlight
-    want = BACKLIGHT_ON if (lamp_on() or ringing) else BACKLIGHT_OFF
+    global _backlight, night_dim
+    if lamp_on() or ringing:
+        night_dim = False                # awake again: normal backlight
+        want = BACKLIGHT_ON
+    else:
+        want = BACKLIGHT_NIGHT if night_dim else BACKLIGHT_OFF
     if want != _backlight:
         display.backlight(want)
         _backlight = want
@@ -725,7 +755,9 @@ def knob_turn_home(delta):
     else:
         idx = palette_index(color_rgb())
         idx = WARM_WHITE_INDEX if idx is None else (idx + delta) % len(PALETTE)
-        changed = s.set("color", rgb_to_hex(PALETTE[idx])) or changed
+        if s.set("color", rgb_to_hex(PALETTE[idx])):
+            changed = True
+            show_color_on_button()       # the new colour on the button for 3 s
     # Only when something changed: turning on past the end must not fire USB
     # commands at the LEDs for nothing (that triggered DEV-78 flicks).
     if changed:
@@ -828,6 +860,8 @@ while True:
         apply_output()
     elif lamp_on() and ringing != "timer" and now - _last_push >= LAMP_REFRESH_S:
         push_lamp(current_level())               # heal any corrupted frame
+    if _status_shown is not None and now >= status_until:
+        paint_status()                           # colour shown 3 s: button dark again
     service_sundown(now)
     service_alarm(now)
     service_ring(now)
