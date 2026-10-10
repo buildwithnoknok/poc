@@ -15,3 +15,7 @@ Convention: Confluence "Development Conventions" (SD space, page 120160257).
 ## Baseline - 2026-10-02
 
 - Changelog starts here. Current: button-light 1.0.1, multicolor-lamp-16x 1.0.0, smart-lamp-mini 1.0.0, smart-lamp 2.0.0, whack-a-mole 1.0.0. Name the product in each entry. Earlier history: git log and the README.
+
+## multicolor-lamp-16x 1.0.0 / 2.4.0 (catalog) - 2026-10-02 (backfilled for DEV-46)
+
+- DEV-46 - NEW Multicolor Lamp 16x (`multicolor-lamp-16x-v1`), the first product for the LEDs 16x (manifest type `usb_leds_16x`, needs one, app-controlled). Settings: on, brightness, Light = White / Colour / Colour + white, colour, white amount. Two read-only `info` rows: Temperature (°C) and Light (Normal / Dimmed - warm / Dimmed - weak USB power / Off - too hot / Off - USB power too weak / Off), sharing one GET_STATUS per app poll (0.5 s cache). Drives every connected 16x. `min 2.2.0` in the manifest cannot be enforced yet (`usb_leds_16x` is not in the module registry). Needs brain `noknok.py` 1.11 and `noknok_usb.py` 1.1. Breaking: no.
