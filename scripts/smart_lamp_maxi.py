@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-# smart_lamp_maxi.py — noknok Smart Lamp Maxi (Setup 3: USB LEDs + I2C controls + Display)  v1.1.0
+# smart_lamp_maxi.py — noknok Smart Lamp Maxi (Setup 3: USB LEDs + I2C controls + Display)  v1.1.1
 #
 # The top lamp of the Smart Lamp family: lamp + clock + kitchen timer + wake-up
 # light. Modules: LEDs 16x (or 8x), LED Button, Knob, Buzzer, Display.
@@ -175,6 +175,7 @@ STATUS_SHOW_S    = 3.0     # button LED shows a new colour this long, then dark
 LOOP_SLEEP_S     = 0.03
 LAMP_REFRESH_S   = 10.0    # re-send the full lamp state this often while on
 LAMP_COALESCE_S  = 0.12    # knob turns: at most one LEDs update this often
+LAMP_SETTLE_S    = 0.5     # one full re-send this long after the LAST button toggle (DEV-151)
 
 DEFAULTS = {
     "on": True,
@@ -332,6 +333,20 @@ def current_level():
 # LED or one whole frame goes off-colour. "Set all" rewrites every LED and
 # cancels any animation a stray byte started, so a glitch never sticks.
 _last_push = 0.0
+# DEV-151: quick on/off/on/off sends several commands in a row and one can be
+# garbled, which used to show until the 10 s refresh. So a toggle also books
+# ONE re-send of the same state LAMP_SETTLE_S after the last toggle - the same
+# frame again, so nothing visibly changes when nothing was garbled.
+_settle_at = None
+
+def resend_lamp():
+    if ringing == "timer":               # the pulse owns the lamp
+        return
+    if lamp_on():
+        push_lamp(current_level())
+    else:
+        for lamp in lamps:
+            lamp.off()
 
 def push_lamp(level):
     global _last_push
@@ -731,6 +746,7 @@ def reset_lamp():
 
 # ── Controls ───────────────────────────────────────────────────────────────────
 def toggle_lamp():
+    global _settle_at
     cancel_sunrise()
     if lamp_on():
         s.set("on", False)
@@ -739,6 +755,7 @@ def toggle_lamp():
         s.set("on", True)
         beep_on()
     apply_output()
+    _settle_at = time.monotonic() + LAMP_SETTLE_S   # re-send once after the last toggle
     print("[maxi] lamp %s" % ("on" if lamp_on() else "off"))
 
 def knob_turn_home(delta):
@@ -860,6 +877,9 @@ while True:
         apply_output()
     elif lamp_on() and ringing != "timer" and now - _last_push >= LAMP_REFRESH_S:
         push_lamp(current_level())               # heal any corrupted frame
+    if _settle_at is not None and now >= _settle_at:
+        _settle_at = None
+        resend_lamp()                            # DEV-151: settle after quick toggles
     if _status_shown is not None and now >= status_until:
         paint_status()                           # colour shown 3 s: button dark again
     service_sundown(now)

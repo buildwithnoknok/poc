@@ -1,7 +1,7 @@
 {
   "id": "smart-lamp-maxi-v1",
   "name": "Smart Lamp Maxi",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "buildwithnoknok",
   "brain_type": "pico_w",
   "price": 0.0,
@@ -28,7 +28,7 @@
     {
       "dest": "product.py",
       "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/smart_lamp_maxi.py",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "required": true
     }
   ],

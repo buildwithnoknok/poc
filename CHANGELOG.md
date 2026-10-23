@@ -4,6 +4,10 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## smart-lamp-maxi 1.1.1 - 2026-10-23
+
+- DEV-151 - switching the lamp on and off several times very quickly could leave it in the wrong colour for up to 10 seconds. The lamp now sends its state once more half a second after the last press, so it shows the right colour (or stays off) right away. Breaking: no.
+
 ## smart-lamp-maxi 1.1.0 - 2026-10-04
 
 - DEV-73 - Smart Lamp Maxi 1.1.0 (Christopher's bench feedback): the button LED stays dark and only shows a new colour for 3 s after a change (knob or app). After a Sundown ends, the display backlight drops to its dimmest real level (raw 3; raw 1-2 are brighter on this panel) until the lamp is switched on again or an alarm/timer rings. Breaking: no.
