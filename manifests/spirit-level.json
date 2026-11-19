@@ -1,0 +1,115 @@
+{
+  "id": "spirit-level-v1",
+  "name": "Spirit Level",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A digital spirit level for shelves, tables and 3D-printer beds. A third-party MSA311 accelerometer feels which way is down; the display shows a bubble and the tilt in degrees, the button LED is green when level. Press the button to call the surface zero. Third-party Qwiic / Stemma QT board: plug it in with the brain off.",
+  "modules_required": [
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "msa311",
+      "count": 1,
+      "thirdparty": true
+    }
+  ],
+  "module_firmware": {
+    "display": {
+      "min": "0.7.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/spirit_level.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Unplug the PicoHub first: third-party boards are connected with the brain off.",
+    "Connect the Display, the LED Button and the MSA311 accelerometer to the PicoHub.",
+    "Lay the MSA311 flat on the surface (its component side up). Plug in the PicoHub and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Bubble",
+      "action": "Moves towards the high side; the cross is level"
+    },
+    {
+      "control": "LED Button press",
+      "action": "Call this surface zero"
+    },
+    {
+      "control": "LED Button hold (1 s)",
+      "action": "Back to the board's own zero"
+    },
+    {
+      "control": "Button LED",
+      "action": "Green = inside the tolerance, orange = tilted"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "tolerance",
+      "type": "slider",
+      "label": "Level within (degrees)",
+      "min": 0.1,
+      "max": 3.0,
+      "step": 0.1,
+      "default": 0.5,
+      "unit": "°"
+    },
+    {
+      "id": "range_deg",
+      "type": "slider",
+      "label": "Bubble field (± degrees)",
+      "min": 5,
+      "max": 45,
+      "step": 5,
+      "default": 15,
+      "unit": "°"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "id": "tilt_x",
+      "type": "info",
+      "label": "Tilt left-right",
+      "unit": "°",
+      "decimals": 1
+    },
+    {
+      "id": "tilt_y",
+      "type": "info",
+      "label": "Tilt front-back",
+      "unit": "°",
+      "decimals": 1
+    }
+  ]
+}
