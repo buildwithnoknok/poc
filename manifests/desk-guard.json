@@ -1,0 +1,158 @@
+{
+  "id": "desk-guard-v1",
+  "name": "Desk Guard",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A little alarm for your desk, bag or room. A PIR motion sensor watches the room and an accelerometer feels a bump on the desk. Arm it with the LED Button, leave during the exit delay; movement starts an entry delay, then a siren. Third-party boards (Soldered PIR easyC, MSA311): plug them in with the brain off. A toy for peace of mind, not a security system.",
+  "modules_required": [
+    {
+      "type": "buzzer",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "soldered_pir",
+      "count": 1,
+      "thirdparty": true
+    },
+    {
+      "type": "msa311",
+      "count": 1,
+      "thirdparty": true
+    }
+  ],
+  "module_firmware": {
+    "buzzer": {
+      "min": "3.3.1"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/desk_guard.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Unplug the PicoHub first: third-party boards are connected with the brain off.",
+    "Connect the Buzzer, the LED Button, the Soldered PIR (address 0x30, its default) and the MSA311 accelerometer to the PicoHub.",
+    "Fix the MSA311 to the desk or bag you want to guard. Plug in the PicoHub and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press (disarmed)",
+      "action": "Arm: exit delay with quiet beeps, then armed (faint red glow)"
+    },
+    {
+      "control": "LED Button press (any other time)",
+      "action": "Disarm"
+    },
+    {
+      "control": "Movement or bump while armed",
+      "action": "Entry delay: fast beeps and a flashing button - press the button to disarm"
+    },
+    {
+      "control": "Entry delay over",
+      "action": "Siren for a while, then armed again"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "pir_on",
+      "type": "toggle",
+      "label": "Watch the room (PIR)",
+      "default": true
+    },
+    {
+      "id": "bump_on",
+      "type": "toggle",
+      "label": "Feel bumps (accelerometer)",
+      "default": true
+    },
+    {
+      "id": "bump_limit",
+      "type": "slider",
+      "label": "Bump limit (m/s²)",
+      "min": 0.2,
+      "max": 5.0,
+      "step": 0.1,
+      "default": 1.0,
+      "unit": "m/s²",
+      "help": "1.0 = a knock on the table, 3.0 = a real shove"
+    },
+    {
+      "id": "exit_s",
+      "type": "slider",
+      "label": "Exit delay (s)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 10,
+      "unit": "s",
+      "group": "Timing"
+    },
+    {
+      "id": "entry_s",
+      "type": "slider",
+      "label": "Entry delay (s)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 10,
+      "unit": "s",
+      "group": "Timing"
+    },
+    {
+      "id": "alarm_s",
+      "type": "slider",
+      "label": "Siren (s)",
+      "min": 5,
+      "max": 120,
+      "step": 5,
+      "default": 20,
+      "unit": "s",
+      "group": "Timing"
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "%"
+    },
+    {
+      "id": "state",
+      "type": "info",
+      "label": "Guard"
+    },
+    {
+      "id": "triggers",
+      "type": "info",
+      "label": "Alarms since power-on"
+    },
+    {
+      "id": "last_trigger",
+      "type": "info",
+      "label": "Last trigger"
+    }
+  ]
+}
