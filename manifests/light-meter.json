@@ -1,0 +1,173 @@
+{
+  "id": "light-meter-v1",
+  "name": "Light Meter",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A light meter for photography and plants. An Adafruit VEML7700 light sensor measures lux; the display also shows the shutter speed that fits your aperture and ISO (incident-light estimate). Turn the knob to set aperture or ISO, press the LED Button to freeze a reading. Third-party Qwiic / Stemma QT board: plug it in with the brain off.",
+  "modules_required": [
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "veml7700",
+      "count": 1,
+      "thirdparty": true
+    }
+  ],
+  "module_firmware": {
+    "display": {
+      "min": "0.7.0"
+    },
+    "knob": {
+      "min": "2.1.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/light_meter.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Unplug the PicoHub first: third-party boards are connected with the brain off.",
+    "Connect the Display, the Knob, the LED Button and the Adafruit VEML7700 to the PicoHub.",
+    "Plug in the PicoHub and run setup in the noknok app. Hold the sensor where the light falls ON your subject."
+  ],
+  "controls": [
+    {
+      "control": "Knob turn",
+      "action": "Change the highlighted (yellow) value: aperture f/1.4 to f/22, or ISO 50 to 1600"
+    },
+    {
+      "control": "Knob press",
+      "action": "Switch between aperture and ISO"
+    },
+    {
+      "control": "LED Button press",
+      "action": "Freeze / release the reading (button LED amber while frozen)"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "aperture",
+      "type": "select",
+      "label": "Aperture",
+      "options": [
+        {
+          "value": "1.4",
+          "label": "f/1.4"
+        },
+        {
+          "value": "2",
+          "label": "f/2"
+        },
+        {
+          "value": "2.8",
+          "label": "f/2.8"
+        },
+        {
+          "value": "4",
+          "label": "f/4"
+        },
+        {
+          "value": "5.6",
+          "label": "f/5.6"
+        },
+        {
+          "value": "8",
+          "label": "f/8"
+        },
+        {
+          "value": "11",
+          "label": "f/11"
+        },
+        {
+          "value": "16",
+          "label": "f/16"
+        },
+        {
+          "value": "22",
+          "label": "f/22"
+        }
+      ],
+      "default": "5.6"
+    },
+    {
+      "id": "iso",
+      "type": "select",
+      "label": "ISO",
+      "options": [
+        {
+          "value": "50",
+          "label": "50"
+        },
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "200",
+          "label": "200"
+        },
+        {
+          "value": "400",
+          "label": "400"
+        },
+        {
+          "value": "800",
+          "label": "800"
+        },
+        {
+          "value": "1600",
+          "label": "1600"
+        }
+      ],
+      "default": "100"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "id": "lux",
+      "type": "info",
+      "label": "Light now",
+      "unit": "lx",
+      "decimals": 0
+    },
+    {
+      "id": "ev",
+      "type": "info",
+      "label": "Exposure value (ISO 100)",
+      "decimals": 1
+    }
+  ]
+}
