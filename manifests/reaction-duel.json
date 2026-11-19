@@ -1,0 +1,123 @@
+{
+  "id": "reaction-duel-v1",
+  "name": "Reaction Duel",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "Two players, two LED Buttons: wait for green, then press first. False start gives the round to your opponent. Display shows the score and your reaction time in milliseconds.",
+  "modules_required": [
+    {
+      "type": "led_button",
+      "count": 2
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    },
+    "display": {
+      "min": "0.7.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/reaction_duel.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the two LED Buttons, the Buzzer and the Display to the PicoHub.",
+    "Put one LED Button on each side of the table, the Display in the middle.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Button, after green",
+      "action": "Fastest press wins the round; the display shows the time"
+    },
+    {
+      "control": "Button, before green",
+      "action": "False start: the other player gets the round"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "rounds_to_win",
+      "type": "slider",
+      "label": "Rounds to win",
+      "min": 1,
+      "max": 9,
+      "step": 1,
+      "default": 3,
+      "group": "Game"
+    },
+    {
+      "id": "min_wait_s",
+      "type": "slider",
+      "label": "Shortest wait (s)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "unit": "s",
+      "group": "Game"
+    },
+    {
+      "id": "max_wait_s",
+      "type": "slider",
+      "label": "Longest wait (s)",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 6,
+      "unit": "s",
+      "group": "Game"
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 140
+    },
+    {
+      "id": "best_ms",
+      "type": "info",
+      "label": "Fastest reaction since power-on",
+      "unit": "ms"
+    }
+  ]
+}
