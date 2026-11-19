@@ -1,0 +1,117 @@
+{
+  "id": "stopwatch-v1",
+  "name": "Stopwatch",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A stopwatch with laps. The LED Button starts and stops, a knob press records a lap (or resets when stopped), the knob scrolls through the last ten laps. Big time on the display, a short beep on every action.",
+  "modules_required": [
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "knob": {
+      "min": "2.1.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/stopwatch.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Knob, the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press",
+      "action": "Start / stop (green = running, red = stopped)"
+    },
+    {
+      "control": "Knob press (running)",
+      "action": "Lap"
+    },
+    {
+      "control": "Knob press (stopped)",
+      "action": "Reset time and laps"
+    },
+    {
+      "control": "Knob turn (stopped)",
+      "action": "Look through the last 10 laps"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "beep",
+      "type": "toggle",
+      "label": "Beep on start, stop and lap",
+      "default": true
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "laps",
+      "type": "info",
+      "label": "Laps recorded"
+    },
+    {
+      "id": "best_lap",
+      "type": "info",
+      "label": "Best lap",
+      "unit": "s",
+      "decimals": 2
+    }
+  ]
+}
