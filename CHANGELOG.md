@@ -4,6 +4,10 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## catalog 2.8.0 - 2026-11-20
+
+- (no DEV ticket yet, exploration account) - thirteen new products, each with its own pull request (manifest + script); this entry lists them in the catalog. noknok modules only: quiz-buzzers-v1, reaction-duel-v1, focus-timer-v1, puzzle-box-v1, breathing-guide-v1, metronome-v1, dice-roller-v1, stopwatch-v1, morse-tapper-v1. With third-party Qwiic / Stemma QT boards (manifest `thirdparty: true`): plant-climate-monitor-v1, desk-guard-v1, spirit-level-v1, light-meter-v1. Merge this PR LAST and delete the line of any product that was not merged. All pass `validate_product.py` (warnings only: no firmware minimum for third-party types). Breaking: no.
+
 ## Tooling - 2026-11-18 (DEV-259)
 
 - DEV-259 - `tools/dev_install.py`: a maker puts a product that is not published yet onto their OWN brain (already set up with the app, on home WiFi): `python tools/dev_install.py --manifest <file or raw URL> --brain <ip or noknok-XXXX.local>`. Runs the validator first (no install with ERRORs), then sends the same product switch the app sends (`provision` op on the home network: the brain downloads product.py from the manifest URL, compile-checks it, keeps the old product if that fails). Standard library only. Breaking: no.
