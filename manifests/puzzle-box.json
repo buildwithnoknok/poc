@@ -1,0 +1,155 @@
+{
+  "id": "puzzle-box-v1",
+  "name": "Puzzle Box",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A combination lock for an escape-room puzzle or a treasure box. Turn the knob like a safe dial, press the LED Button to enter each number. Wrong codes lock the box for a while; the host sets the secret code in the app.",
+  "modules_required": [
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "knob": {
+      "min": "2.1.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/puzzle_box.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Knob, the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Mount them in the lid of your box (or on a board) so the dial and button face the players.",
+    "Plug the Pico into power, run setup in the noknok app and set your secret code."
+  ],
+  "controls": [
+    {
+      "control": "Knob turn",
+      "action": "Dial a number from 0 to 39"
+    },
+    {
+      "control": "LED Button press",
+      "action": "Enter the shown number"
+    },
+    {
+      "control": "Knob press",
+      "action": "Start the code again"
+    },
+    {
+      "control": "Right code",
+      "action": "Green light and fanfare for a few seconds, then it locks again"
+    },
+    {
+      "control": "Wrong code",
+      "action": "Red flash; optional hint shows how many numbers were right; too many wrong codes lock the box for a while"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "code",
+      "type": "text",
+      "label": "Secret code",
+      "max_length": 24,
+      "default": "7-21-33",
+      "help": "1 to 6 numbers from 0 to 39, separated by dashes"
+    },
+    {
+      "id": "show_hint",
+      "type": "toggle",
+      "label": "Hint: show how many numbers were right",
+      "default": true
+    },
+    {
+      "id": "lockout_after",
+      "type": "slider",
+      "label": "Wrong codes before lockout",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "group": "Lock"
+    },
+    {
+      "id": "lockout_s",
+      "type": "slider",
+      "label": "Lockout (s)",
+      "min": 5,
+      "max": 600,
+      "step": 5,
+      "default": 30,
+      "unit": "s",
+      "group": "Lock"
+    },
+    {
+      "id": "open_s",
+      "type": "slider",
+      "label": "Stay open (s)",
+      "min": 3,
+      "max": 120,
+      "step": 1,
+      "default": 10,
+      "unit": "s",
+      "group": "Lock"
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "state",
+      "type": "info",
+      "label": "Box"
+    }
+  ]
+}
