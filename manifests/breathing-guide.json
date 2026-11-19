@@ -1,0 +1,121 @@
+{
+  "id": "breathing-guide-v1",
+  "name": "Breathing Guide",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 3 (USB-C + I2C)",
+  "description": "A calm light you breathe with. The LEDs 16x ring fills from the middle while you breathe in, holds, and fades while you breathe out. Three patterns, a session timer, no screen. Turn the knob to pick a pattern, press it to start.",
+  "modules_required": [
+    {
+      "type": "usb_leds_16x",
+      "count": 1
+    },
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "usb_leds_16x": {
+      "min": "2.2.0"
+    },
+    "knob": {
+      "min": "2.1.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/breathing_guide.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the LEDs 16x module to the DataHub, and the DataHub to the PicoHub.",
+    "Connect the Knob and the Buzzer to the PicoHub with JST SH cables.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Knob turn",
+      "action": "Choose a pattern: 1 LED = Box 4-4-4-4, 2 LEDs = Relax 4-7-8, 3 LEDs = Calm 5-5"
+    },
+    {
+      "control": "Knob press",
+      "action": "Start / stop a session"
+    },
+    {
+      "control": "Ring",
+      "action": "Fills from the middle on the in-breath, fades on the out-breath"
+    },
+    {
+      "control": "Factory reset",
+      "action": "From the app (this product has no button)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "pattern",
+      "type": "select",
+      "label": "Pattern",
+      "options": [
+        {
+          "value": "box",
+          "label": "Box 4-4-4-4"
+        },
+        {
+          "value": "relax",
+          "label": "Relax 4-7-8"
+        },
+        {
+          "value": "calm",
+          "label": "Calm 5-5"
+        }
+      ],
+      "default": "box"
+    },
+    {
+      "id": "session_min",
+      "type": "slider",
+      "label": "Session (min)",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "default": 5,
+      "unit": "min"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Light colour",
+      "default": "#5090FF"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "sound",
+      "type": "toggle",
+      "label": "Soft chime at start and end",
+      "default": false
+    }
+  ]
+}
