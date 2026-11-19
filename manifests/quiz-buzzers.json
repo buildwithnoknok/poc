@@ -1,0 +1,127 @@
+{
+  "id": "quiz-buzzers-v1",
+  "name": "Quiz Buzzers",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A game-show buzzer set for family quiz night: one LED Button per team (2 to 4 teams). First to press answers; the quizmaster taps the team's button for wrong, holds it for right. Display keeps the score, buzzer counts you in.",
+  "modules_required": [
+    {
+      "type": "led_button",
+      "count": 4
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    },
+    "display": {
+      "min": "0.7.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/quiz_buzzers.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the four LED Buttons, the Buzzer and the Display to the PicoHub with JST SH cables (use a Qwiic hub for the extra ports).",
+    "Put one LED Button in front of each team.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Any button, early",
+      "action": "False start: that team is red and out for this question"
+    },
+    {
+      "control": "Any button, after GO",
+      "action": "The first team to press lights up in its colour and answers"
+    },
+    {
+      "control": "Tap the answering team's button",
+      "action": "Wrong: the team is out for this question, the others can buzz again"
+    },
+    {
+      "control": "Hold the answering team's button (1 s)",
+      "action": "Right: the team scores a point"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "points_to_win",
+      "type": "slider",
+      "label": "Points to win",
+      "min": 1,
+      "max": 9,
+      "step": 1,
+      "default": 3,
+      "group": "Game"
+    },
+    {
+      "id": "countdown",
+      "type": "toggle",
+      "label": "3-2-1 countdown (false starts)",
+      "default": true,
+      "help": "Off = buttons are live as soon as a question starts"
+    },
+    {
+      "id": "answer_s",
+      "type": "slider",
+      "label": "Time to answer (s)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 10,
+      "unit": "s",
+      "group": "Game",
+      "help": "0 = no limit"
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "scores",
+      "type": "info",
+      "label": "Scores (team 1 to 4)"
+    }
+  ]
+}
