@@ -1,0 +1,157 @@
+{
+  "id": "focus-timer-v1",
+  "name": "Focus Timer",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A Pomodoro desk timer: work in focused blocks, rest in short breaks, with a long break every few blocks. Big countdown and progress bar on the display, a chime at every change. Turn the knob to set the minutes.",
+  "modules_required": [
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "knob": {
+      "min": "2.1.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/focus_timer.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Knob, the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Knob turn (ready screen)",
+      "action": "Set the focus minutes (5 to 90, steps of 5)"
+    },
+    {
+      "control": "LED Button press",
+      "action": "Start the first focus block (and start the next one when auto-next is off)"
+    },
+    {
+      "control": "Knob press (running)",
+      "action": "Pause / resume"
+    },
+    {
+      "control": "LED Button hold (1 s)",
+      "action": "Stop and go back to the ready screen"
+    },
+    {
+      "control": "Button LED",
+      "action": "White = ready, red = focus, green = break, amber = paused"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "focus_min",
+      "type": "slider",
+      "label": "Focus (min)",
+      "min": 5,
+      "max": 90,
+      "step": 5,
+      "default": 25,
+      "unit": "min",
+      "group": "Timer"
+    },
+    {
+      "id": "break_min",
+      "type": "slider",
+      "label": "Short break (min)",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 5,
+      "unit": "min",
+      "group": "Timer"
+    },
+    {
+      "id": "long_break_min",
+      "type": "slider",
+      "label": "Long break (min)",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "default": 15,
+      "unit": "min",
+      "group": "Timer"
+    },
+    {
+      "id": "sessions_before_long",
+      "type": "slider",
+      "label": "Focus blocks before a long break",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "group": "Timer"
+    },
+    {
+      "id": "auto_next",
+      "type": "toggle",
+      "label": "Start the next block by itself",
+      "default": true
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "phase",
+      "type": "info",
+      "label": "Now"
+    }
+  ]
+}
