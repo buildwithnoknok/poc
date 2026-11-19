@@ -1,0 +1,129 @@
+{
+  "id": "metronome-v1",
+  "name": "Metronome",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "A practice metronome: steady click with an accented first beat, big BPM on the display, one square per beat. Turn the knob for the tempo, press it to tap the beat (tap tempo), the LED Button starts and stops and blinks on every beat.",
+  "modules_required": [
+    {
+      "type": "knob",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "knob": {
+      "min": "2.1.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/metronome.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Knob, the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "Knob turn",
+      "action": "Tempo, 30 to 240 BPM"
+    },
+    {
+      "control": "Knob press",
+      "action": "Tap tempo: tap the beat 3 or more times"
+    },
+    {
+      "control": "LED Button press",
+      "action": "Start / stop"
+    },
+    {
+      "control": "Button LED",
+      "action": "Blinks on every beat: white on the accent, blue on the others"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "bpm",
+      "type": "slider",
+      "label": "Tempo (BPM)",
+      "min": 30,
+      "max": 240,
+      "step": 1,
+      "default": 100,
+      "unit": "BPM"
+    },
+    {
+      "id": "beats",
+      "type": "slider",
+      "label": "Beats per bar",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "id": "accent",
+      "type": "toggle",
+      "label": "Accent the first beat",
+      "default": true
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "running",
+      "type": "info",
+      "label": "Running"
+    }
+  ]
+}
