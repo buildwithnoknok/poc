@@ -1,0 +1,122 @@
+{
+  "id": "dice-roller-v1",
+  "name": "Dice Roller",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "One LED Button rolls the dice for board games and role-play: d6, two dice, d20, d100 or a coin. A short tumble on the display, then the result; a natural 20 plays a fanfare, a 1 a sad tone. Hold the button to change the kind of dice.",
+  "modules_required": [
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/dice_roller.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press",
+      "action": "Roll"
+    },
+    {
+      "control": "LED Button hold (1 s)",
+      "action": "Next kind of dice: d6, 2d6, d20, d100, coin"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "dice",
+      "type": "select",
+      "label": "Dice",
+      "options": [
+        {
+          "value": "d6",
+          "label": "One die (d6)"
+        },
+        {
+          "value": "2d6",
+          "label": "Two dice (2d6)"
+        },
+        {
+          "value": "d20",
+          "label": "d20"
+        },
+        {
+          "value": "d100",
+          "label": "d100"
+        },
+        {
+          "value": "coin",
+          "label": "Coin"
+        }
+      ],
+      "default": "d6"
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "rolls",
+      "type": "info",
+      "label": "Rolls since power-on"
+    },
+    {
+      "id": "last",
+      "type": "info",
+      "label": "Last roll"
+    }
+  ]
+}
