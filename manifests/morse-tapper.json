@@ -1,0 +1,123 @@
+{
+  "id": "morse-tapper-v1",
+  "name": "Morse Tapper",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "Tap Morse code on the LED Button and read your message on the display: short tap = dot, long press = dash, a pause ends the letter. The buzzer beeps while you press; the display shows the dots and dashes you are tapping and the decoded text. Speed in words per minute is set in the app.",
+  "modules_required": [
+    {
+      "type": "led_button",
+      "count": 1
+    },
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "buzzer",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "led_button": {
+      "min": "2.1.0"
+    },
+    "display": {
+      "min": "0.7.0"
+    },
+    "buzzer": {
+      "min": "3.3.1"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/morse_tapper.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the LED Button, the Display and the Buzzer to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app."
+  ],
+  "controls": [
+    {
+      "control": "LED Button short tap",
+      "action": "Dot"
+    },
+    {
+      "control": "LED Button long press (about 3x)",
+      "action": "Dash"
+    },
+    {
+      "control": "Pause",
+      "action": "Short pause: letter is decoded (button flashes green, or red if unknown). Longer pause: space"
+    },
+    {
+      "control": "LED Button hold (1.5 s)",
+      "action": "Clear the text"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "wpm",
+      "type": "slider",
+      "label": "Speed (words per minute)",
+      "min": 5,
+      "max": 25,
+      "step": 1,
+      "default": 10,
+      "unit": "wpm"
+    },
+    {
+      "id": "tone",
+      "type": "slider",
+      "label": "Tone (Hz)",
+      "min": 300,
+      "max": 1500,
+      "step": 50,
+      "default": 700,
+      "unit": "Hz"
+    },
+    {
+      "id": "show_code",
+      "type": "toggle",
+      "label": "Show the dots and dashes while tapping",
+      "default": true
+    },
+    {
+      "id": "volume",
+      "type": "slider",
+      "label": "Volume",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 120
+    },
+    {
+      "id": "message",
+      "type": "info",
+      "label": "Message"
+    }
+  ]
+}
