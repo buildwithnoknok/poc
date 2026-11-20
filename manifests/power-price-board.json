@@ -1,0 +1,161 @@
+{
+  "id": "power-price-board-v1",
+  "name": "Power Price Board",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "Is electricity cheap right now? The day-ahead wholesale price of a European market zone (default Switzerland) on a noknok Display, with the cheapest two hours ahead, so you can start the washing machine or charge the car when power is cheap. It is the exchange price, not your tariff. Data: Energy-Charts (Fraunhofer ISE, CC BY 4.0). Needs your home Wi-Fi with internet, and the brain library noknok_feeds (not in a brain release yet).",
+  "modules_required": [
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "display": {
+      "min": "0.7.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/power_price_board.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Display and the LED Button to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app (home Wi-Fi with internet)."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press",
+      "action": "Switch between the price now and the bars for the next hours"
+    },
+    {
+      "control": "Button LED",
+      "action": "Green = cheap hour, amber = ok, red = pricey (relative to the hours we know)"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "zone",
+      "type": "select",
+      "label": "Market zone",
+      "options": [
+        {
+          "value": "CH",
+          "label": "Switzerland"
+        },
+        {
+          "value": "DE-LU",
+          "label": "Germany / Luxembourg"
+        },
+        {
+          "value": "AT",
+          "label": "Austria"
+        },
+        {
+          "value": "FR",
+          "label": "France"
+        },
+        {
+          "value": "IT-North",
+          "label": "Italy (north)"
+        },
+        {
+          "value": "NL",
+          "label": "Netherlands"
+        }
+      ],
+      "default": "CH"
+    },
+    {
+      "id": "cheap_pct",
+      "type": "slider",
+      "label": "Cheap = cheapest share of hours",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 25,
+      "unit": "%"
+    },
+    {
+      "id": "pricey_pct",
+      "type": "slider",
+      "label": "Pricey = dearest share starts at",
+      "min": 50,
+      "max": 95,
+      "step": 5,
+      "default": 75,
+      "unit": "%"
+    },
+    {
+      "id": "timezone",
+      "type": "select",
+      "label": "Time zone (summer time is automatic)",
+      "options": [
+        {
+          "value": "cet",
+          "label": "Central Europe (UTC+1)"
+        },
+        {
+          "value": "gmt",
+          "label": "UK / Portugal (UTC+0)"
+        },
+        {
+          "value": "eet",
+          "label": "Eastern Europe (UTC+2)"
+        }
+      ],
+      "default": "cet"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "id": "price_now",
+      "type": "info",
+      "label": "Price now",
+      "unit": "ct/kWh",
+      "decimals": 1
+    },
+    {
+      "id": "level",
+      "type": "info",
+      "label": "Level now"
+    },
+    {
+      "id": "status",
+      "type": "info",
+      "label": "Data status"
+    },
+    {
+      "id": "source",
+      "type": "info",
+      "label": "Data source"
+    }
+  ]
+}
