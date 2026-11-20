@@ -3,7 +3,7 @@
   "name": "Smart Lamp Maxi",
   "version": "1.1.1",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
+  "requires": ["usb_host"],
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
   "description": "The fully stacked Smart Lamp: a lamp, a bedside clock, a kitchen timer and a wake-up light in one. The display shows the time, the knob sets brightness and colour, the button switches the light on and off or starts a gentle sundown fade. Set an alarm and the lamp slowly brightens like a sunrise before it rings.",

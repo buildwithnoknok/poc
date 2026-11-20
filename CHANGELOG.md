@@ -4,6 +4,10 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## Manifests + tooling - 2026-11-20 (DEV-268)
+
+- DEV-268 - manifests no longer carry `brain_type` (deprecated in the Ecosystem schema: it named a board, not a need). The five products with a USB LEDs module (Smart Lamp, Smart Lamp Mini, Smart Lamp Maxi, Smart Alarm Maxi, Multicolor Lamp 16x) now say `"requires": ["usb_host"]`; Button Light and Whack-a-Mole need nothing beyond I2C. `tools/validate_product.py`: `requires` must not leave out `usb_host` when a `usb_*` module is required (error), a capability twice is an error, a leftover `brain_type` is a warning; `derived_requires()` / `effective_requires()` give the rule the app uses too. Tests +6 (28). Product versions unchanged (nothing a customer sees changes; the app never read `brain_type`). Breaking: no.
+
 ## Tooling - 2026-11-18 (DEV-259)
 
 - DEV-259 - `tools/dev_install.py`: a maker puts a product that is not published yet onto their OWN brain (already set up with the app, on home WiFi): `python tools/dev_install.py --manifest <file or raw URL> --brain <ip or noknok-XXXX.local>`. Runs the validator first (no install with ERRORs), then sends the same product switch the app sends (`provision` op on the home network: the brain downloads product.py from the manifest URL, compile-checks it, keeps the old product if that fails). Standard library only. Breaking: no.

@@ -3,7 +3,7 @@
   "name": "Smart Lamp Midi",
   "version": "2.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
+  "requires": ["usb_host"],
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
   "description": "A configurable lamp: a USB LEDs module for light, an LED Button for brightness (five levels and off) and mode, a knob for colour, and a buzzer for confirmation sounds. Hold the button for a second to switch to sundown mode — the lamp then fades gently to off over 30 minutes whenever it is on. Remembers its last setting.",

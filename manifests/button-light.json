@@ -3,7 +3,6 @@
   "name": "Button Light",
   "version": "1.0.1",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "The smallest noknok product: one LED Button as a little light. Press it to switch on and off; pick its colour and brightness in the app. Also the demo product for app settings.",

@@ -23,7 +23,7 @@ GOOD_IMAGE = os.path.join(ROOT, "images", "whack-a-mole-v1.webp")
 
 GOOD_MANIFEST = {
     "id": "test-light-v1", "name": "Test Light", "version": "1.0.0", "author": "ada",
-    "brain_type": "pico_w", "setup_pattern": "Setup 1 (I2C only)",
+    "setup_pattern": "Setup 1 (I2C only)",
     "description": "A test product.", "source": "community",
     "maker": {"name": "Ada", "url": "https://ada.example"},
     "image": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/images/test-light-v1.webp",
@@ -111,6 +111,37 @@ class ValidatorTest(unittest.TestCase):
     def test_firmware_for_module_not_required(self):
         m = self.with_(module_firmware={"led_button": {"min": "2.1.0"}, "knob": {"min": "2.0.0"}})
         self.assertFails(self.folder(manifest=m), "modules", "knob")
+
+    # --- DEV-268: brain capabilities ------------------------------------------------------
+    USB = [{"type": "usb_leds_16x", "count": 1}]
+    USB_FW = {"usb_leds_16x": {"min": "2.2.1"}}
+
+    def test_old_manifest_with_brain_type_still_passes_with_a_warning(self):
+        rep = self.folder(manifest=self.with_(brain_type="pico_w"))
+        self.assertEqual(rep.errors, [])
+        self.assertTrue(any(c == "requires" and "brain_type" in m for c, m in rep.warnings))
+
+    def test_usb_product_without_requires_is_derived(self):
+        m = self.with_(modules_required=self.USB, module_firmware=self.USB_FW)
+        self.assertEqual(self.folder(manifest=m).errors, [])
+        self.assertEqual(vp.effective_requires(m), {"usb_host"})
+        self.assertEqual(vp.effective_requires(self.with_()), set())
+
+    def test_usb_product_with_requires_usb_host_passes(self):
+        m = self.with_(modules_required=self.USB, module_firmware=self.USB_FW,
+                       requires=["usb_host"])
+        self.assertEqual(self.folder(manifest=m).errors, [])
+
+    def test_requires_that_hides_usb_host_fails(self):
+        m = self.with_(modules_required=self.USB, module_firmware=self.USB_FW, requires=["i2c_b"])
+        self.assertFails(self.folder(manifest=m), "requires", "usb_host")
+
+    def test_requires_unknown_capability_fails(self):
+        self.assertFails(self.folder(manifest=self.with_(requires=["laser"])), "manifest", "laser")
+
+    def test_requires_twice_fails(self):
+        m = self.with_(requires=["i2c_b", "i2c_b"])
+        self.assertFails(self.folder(manifest=m), "requires", "twice")
 
     def test_script_missing(self):
         self.assertFails(self.folder(script=None), "script", "missing")

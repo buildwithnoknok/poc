@@ -3,7 +3,7 @@
   "name": "Smart Alarm Maxi",
   "version": "1.0.2",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
+  "requires": ["usb_host"],
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
   "description": "A bedside lamp that wakes you up gently. Two alarms, armed with one press of the button, six alarm tones (from a soft chime to Mozart and an 8-bit jingle), and a wake-up light that brightens like a sunrise before the alarm rings. The display shows the time and can be turned to fit however you mount it. The knob sets brightness and colour, a double press starts a sundown fade for falling asleep.",

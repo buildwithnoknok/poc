@@ -3,7 +3,7 @@
   "name": "Smart Lamp Mini",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
+  "requires": ["usb_host"],
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
   "description": "The smallest Smart Lamp: a USB LEDs module for light and one LED Button for everything else. Short press steps through five brightness levels and off; hold it for a second to change the colour. Pick any colour or brightness in the app.",

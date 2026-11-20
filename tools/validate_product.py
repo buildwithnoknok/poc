@@ -188,6 +188,38 @@ def check_manifest(m, schema, rep):
             rep.error("modules", "module_firmware names %r, which is not in modules_required" % t)
     for t in sorted(x for x in required if x and x not in fw):
         rep.warn("modules", "no firmware minimum for %r (add module_firmware.%s.min)" % (t, t))
+    # DEV-268: brain capabilities. `requires` may be left out (derived from the modules);
+    # if it is written, it must not hide a USB module's need for a USB host port.
+    req = m.get("requires")
+    if isinstance(req, list):
+        if len(set(map(str, req))) != len(req):
+            rep.error("requires", "requires lists a capability twice")
+        need = derived_requires(m)
+        for cap in sorted(need - set(req)):
+            rep.error("requires", "requires leaves out %r, but modules_required has a USB module "
+                                  "(write it, or leave `requires` out)" % cap)
+    if "brain_type" in m:
+        rep.warn("requires", "brain_type is deprecated and ignored (DEV-268): remove it; "
+                             "use `requires` only for needs beyond I2C")
+
+
+USB_HOST_TYPES_PREFIX = "usb_"     # module types that sit on the USB host port (DEV-268)
+
+
+def derived_requires(m):
+    """Capabilities a manifest needs because of its modules: {'usb_host'} when it requires
+    a usb_* module (noknok LEDs, LEDs 16x, the old hubs), else empty."""
+    out = set()
+    for r in m.get("modules_required", []) or []:
+        if isinstance(r, dict) and str(r.get("type", "")).startswith(USB_HOST_TYPES_PREFIX):
+            out.add("usb_host")
+    return out
+
+
+def effective_requires(m):
+    """What the app / brain should check: the written `requires`, else the derived set."""
+    req = m.get("requires")
+    return set(req) if isinstance(req, list) else derived_requires(m)
 
 
 def _docstring_nodes(tree):
