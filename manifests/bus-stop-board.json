@@ -1,0 +1,165 @@
+{
+  "id": "bus-stop-board-v1",
+  "name": "Bus Stop Board",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "The next departures of a Swiss bus, tram or train stop on a noknok Display: line, destination and minutes until the real departure. Type your stop in the app, optionally pick lines and your walking time: green = you can make it, yellow = hurry, grey = too late; the button LED shows it too. Data: transport.opendata.ch. Needs your home Wi-Fi with internet, and the brain library noknok_feeds (not in a brain release yet).",
+  "modules_required": [
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "display": {
+      "min": "0.7.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/bus_stop_board.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Display and the LED Button to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app (home Wi-Fi with internet).",
+    "Type your stop name in the app (for example Bern, Bahnhof) and your walking time."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press",
+      "action": "Switch to the second stop (if you set one), otherwise refresh now"
+    },
+    {
+      "control": "Button LED",
+      "action": "Green = the first reachable departure has time to spare, yellow = hurry, red = none reachable soon"
+    },
+    {
+      "control": "Rows",
+      "action": "Green: you can make it; yellow: hurry; grey: too late, or the data is old"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "stop",
+      "type": "text",
+      "label": "Stop",
+      "max_length": 40,
+      "default": "Bern, Bahnhof",
+      "help": "As in the timetable, e.g. Zuerich, Bellevue"
+    },
+    {
+      "id": "stop2",
+      "type": "text",
+      "label": "Second stop (optional)",
+      "max_length": 40,
+      "default": ""
+    },
+    {
+      "id": "line",
+      "type": "text",
+      "label": "Only these lines (optional)",
+      "max_length": 20,
+      "default": "",
+      "help": "Comma separated, e.g. 9,11"
+    },
+    {
+      "id": "walk_min",
+      "type": "slider",
+      "label": "Walking time to the stop",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 3,
+      "unit": "min"
+    },
+    {
+      "id": "rows",
+      "type": "slider",
+      "label": "Departures shown",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "id": "refresh_s",
+      "type": "slider",
+      "label": "Refresh every",
+      "min": 20,
+      "max": 300,
+      "step": 10,
+      "default": 30,
+      "unit": "s"
+    },
+    {
+      "id": "timezone",
+      "type": "select",
+      "label": "Time zone (summer time is automatic)",
+      "options": [
+        {
+          "value": "cet",
+          "label": "Central Europe (UTC+1)"
+        },
+        {
+          "value": "gmt",
+          "label": "UK / Portugal (UTC+0)"
+        },
+        {
+          "value": "eet",
+          "label": "Eastern Europe (UTC+2)"
+        }
+      ],
+      "default": "cet"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "id": "stop_found",
+      "type": "info",
+      "label": "Stop found"
+    },
+    {
+      "id": "next_min",
+      "type": "info",
+      "label": "Next reachable departure",
+      "unit": "min"
+    },
+    {
+      "id": "status",
+      "type": "info",
+      "label": "Data status"
+    },
+    {
+      "id": "source",
+      "type": "info",
+      "label": "Data source"
+    }
+  ]
+}
