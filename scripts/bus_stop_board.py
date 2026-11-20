@@ -162,6 +162,7 @@ def render():
 
 print("[bus] up, settings=%s" % s.all())
 lamp((60, 60, 60))
+render()                                  # "loading..." at once: the FIRST fetch blocks 9-13 s on a real Pico (TLS handshake, bench 20 Nov 2026)
 last_render = 0.0
 while True:
     b = btn.read()
