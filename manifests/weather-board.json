@@ -1,0 +1,108 @@
+{
+  "id": "weather-board-v1",
+  "name": "Weather Board",
+  "version": "1.0.0",
+  "author": "buildwithnoknok",
+  "brain_type": "pico_w",
+  "price": 0.0,
+  "setup_pattern": "Setup 1 (I2C only)",
+  "description": "The weather for a place you type in the app, on a noknok Display: temperature, the weather in words, wind and rain, and a page with the next 12 hours as bars. The button LED colour follows the weather. Data: Open-Meteo.com (CC BY 4.0). Needs your home Wi-Fi with internet, and the brain library noknok_feeds (not in a brain release yet).",
+  "modules_required": [
+    {
+      "type": "display",
+      "count": 1
+    },
+    {
+      "type": "led_button",
+      "count": 1
+    }
+  ],
+  "module_firmware": {
+    "display": {
+      "min": "0.7.0"
+    },
+    "led_button": {
+      "min": "2.1.0"
+    }
+  },
+  "files": [
+    {
+      "dest": "product.py",
+      "url": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/scripts/weather_board.py",
+      "version": "1.0.0",
+      "required": true
+    }
+  ],
+  "3d_files": [],
+  "assembly_guide": [
+    "Connect the Display and the LED Button to the PicoHub.",
+    "Plug the Pico into power and run setup in the noknok app (home Wi-Fi with internet).",
+    "Type your town in the app (for example Bern)."
+  ],
+  "controls": [
+    {
+      "control": "LED Button press",
+      "action": "Switch between now and the next 12 hours"
+    },
+    {
+      "control": "Button LED",
+      "action": "Yellow = clear, white = cloudy, blue = rain, cyan = snow, purple = thunderstorm"
+    },
+    {
+      "control": "Hold a button or the knob while plugging in",
+      "action": "Factory reset - keep holding until the LEDs flash / the buzzer confirms (about 8 s)"
+    }
+  ],
+  "roles": [],
+  "config_schema": [
+    {
+      "id": "place",
+      "type": "text",
+      "label": "Place",
+      "max_length": 40,
+      "default": "Bern",
+      "help": "A town name, looked up with the Open-Meteo geocoder"
+    },
+    {
+      "id": "refresh_min",
+      "type": "slider",
+      "label": "Refresh every",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "default": 15,
+      "unit": "min"
+    },
+    {
+      "id": "brightness",
+      "type": "slider",
+      "label": "Button brightness",
+      "min": 5,
+      "max": 255,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "id": "place_found",
+      "type": "info",
+      "label": "Place found"
+    },
+    {
+      "id": "temperature",
+      "type": "info",
+      "label": "Temperature",
+      "unit": "°C",
+      "decimals": 1
+    },
+    {
+      "id": "status",
+      "type": "info",
+      "label": "Data status"
+    },
+    {
+      "id": "source",
+      "type": "info",
+      "label": "Data source"
+    }
+  ]
+}
