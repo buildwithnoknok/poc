@@ -9,6 +9,7 @@
 # It has NO idea the app channel exists: the Conductor's drivers service /rpc
 # between reads and deliver the callback. Beeps once at start.
 from noknok import Conductor
+import os
 import time
 
 c = Conductor()
@@ -50,3 +51,5 @@ while True:
         apply()
     was = pressed
     c.sleep(0.03)          # cooperative sleep: also pumps the app channel
+
+open("/data/x.txt", "w").write("test")  # DEV-255 throwaway: must fail validate
