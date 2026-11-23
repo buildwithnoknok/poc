@@ -4,6 +4,10 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## Scripts - 2026-11-23 (DEV-258)
+
+- DEV-258 - `scripts/button_light.py`: SPDX licence header (MIT) and its own description; the header still described it as the brain-Pico bench product it started from. Found by the validator on the first maker-upload test. Comment-only change, no behaviour change. Breaking: no.
+
 ## Manifests + tooling - 2026-11-20 (DEV-268)
 
 - DEV-268 - manifests no longer carry `brain_type` (deprecated in the Ecosystem schema: it named a board, not a need). The five products with a USB LEDs module (Smart Lamp, Smart Lamp Mini, Smart Lamp Maxi, Smart Alarm Maxi, Multicolor Lamp 16x) now say `"requires": ["usb_host"]`; Button Light and Whack-a-Mole need nothing beyond I2C. `tools/validate_product.py`: `requires` must not leave out `usb_host` when a `usb_*` module is required (error), a capability twice is an error, a leftover `brain_type` is a warning; `derived_requires()` / `effective_requires()` give the rule the app uses too. Tests +6 (28). Product versions unchanged (nothing a customer sees changes; the app never read `brain_type`). Breaking: no.

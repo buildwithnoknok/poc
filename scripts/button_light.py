@@ -1,13 +1,13 @@
-# bench_rpc_product.py — the smallest possible product, for DEV-34 bench runs.
+# SPDX-FileCopyrightText: 2026 noknok (Christopher Houben)
+# SPDX-License-Identifier: MIT
 #
-# Put on the bench Pico as /data/product.py (`pico.py put bench_rpc_product.py
-# /data/product.py`). It shows the whole c.settings loop on one LED Button:
+# button_light.py - Button Light: one noknok LED Button as a lamp you set up in the app.
 #   - settings: on (toggle), color (#RRGGBB), brightness (0-255)
-#   - the button toggles `on` (device-side change → persisted after 5 s idle)
-#   - the app (rpc_call.py … settings.set) changes colour/brightness → the
-#     on_change callback repaints the LED at the next module read
-# It has NO idea the app channel exists: the Conductor's drivers service /rpc
-# between reads and deliver the callback. Beeps once at start.
+#   - pressing the button toggles `on` (saved by the brain after 5 s without changes)
+#   - colour / brightness changed in the app repaint the LED at the next module read
+# The product has no idea the app channel exists: the Conductor's drivers serve the app
+# between reads and deliver the changes. Beeps once at start.
+# (Started as the DEV-34 bench product bench_rpc_product.py in brain-Pico.)
 from noknok import Conductor
 import time
 
