@@ -6,9 +6,13 @@ Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
 ## Products + tooling - 2026-11-25 (DEV-278, DEV-281)
 
-- DEV-278 - 13 new products on main (not yet in `catalog.json`, so not published): Quiz Buzzers, Reaction Duel, Focus Timer, Puzzle Box, Breathing Guide, Plant Climate Monitor, Desk Guard, Metronome, Dice Roller, Stopwatch, Morse Tapper, Spirit Level, Light Meter (manifest + script each, v1.0.0). Each script read by Sue before merge; validator 0 errors. They enter the catalog only with the catalog PR after the bench PASS per product (Bob). Breaking: no.
+- DEV-278 - 13 new products on main (listed in catalog 2.8.0 below): Quiz Buzzers, Reaction Duel, Focus Timer, Puzzle Box, Breathing Guide, Plant Climate Monitor, Desk Guard, Metronome, Dice Roller, Stopwatch, Morse Tapper, Spirit Level, Light Meter (manifest + script each, v1.0.0). Each script read by Sue before merge; validator 0 errors. They enter the catalog only with the catalog PR after the bench PASS per product (Bob). Breaking: no.
 - DEV-281 - `tools/sim/`: the PC product simulator (fake brain + fake clock + scenario tests, 23 groups) moved here from the exploration repo; new products get a logic test before the bench. Breaking: no.
 - DEV-281 - `tools/validate_product.py`: third-party boards no longer get "no firmware minimum" warnings (the authoring guide says to leave them out; naming one in `module_firmware` is now a warning); importing `noknok_feeds` is a review warning and an ERROR unless the manifest says `"needs": ["internet"]` (needs the schema field from Ecosystem PR 5); the three data products now say needs internet. Breaking: no.
+
+## catalog 2.8.0 - 2026-11-25
+
+- DEV-278 - thirteen new products, each added by its own pull request (manifest + script); this entry lists them in the catalog. noknok modules only: quiz-buzzers-v1, reaction-duel-v1, focus-timer-v1, puzzle-box-v1, breathing-guide-v1, metronome-v1, dice-roller-v1, stopwatch-v1, morse-tapper-v1. With third-party Qwiic / Stemma QT boards (manifest `thirdparty: true`, library `noknok_thirdparty` from DEV-248): plant-climate-monitor-v1, desk-guard-v1, spirit-level-v1, light-meter-v1. Merge this PR LAST and delete the line of any product that was not merged. All pass `validate_product.py` against current main (DEV-268 `requires`; warnings only: no firmware minimum for third-party types). The three data products (bus-stop-board, weather-board, power-price-board) are NOT in this entry: they need the brain library `noknok_feeds` (brain-Pico PR 6, DEV-281). Breaking: no.
 
 ## Scripts - 2026-11-23 (DEV-258)
 
