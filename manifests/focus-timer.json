@@ -3,7 +3,6 @@
   "name": "Focus Timer",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A Pomodoro desk timer: work in focused blocks, rest in short breaks, with a long break every few blocks. Big countdown and progress bar on the display, a chime at every change. Turn the knob to set the minutes.",
