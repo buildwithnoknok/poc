@@ -3,7 +3,6 @@
   "name": "Quiz Buzzers",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A game-show buzzer set for family quiz night: one LED Button per team (2 to 4 teams). First to press answers; the quizmaster taps the team's button for wrong, holds it for right. Display keeps the score, buzzer counts you in.",
