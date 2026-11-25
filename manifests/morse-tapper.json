@@ -3,7 +3,6 @@
   "name": "Morse Tapper",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "Tap Morse code on the LED Button and read your message on the display: short tap = dot, long press = dash, a pause ends the letter. The buzzer beeps while you press; the display shows the dots and dashes you are tapping and the decoded text. Speed in words per minute is set in the app.",
