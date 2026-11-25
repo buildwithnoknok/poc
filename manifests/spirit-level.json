@@ -3,7 +3,6 @@
   "name": "Spirit Level",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A digital spirit level for shelves, tables and 3D-printer beds. A third-party MSA311 accelerometer feels which way is down; the display shows a bubble and the tilt in degrees, the button LED is green when level. Press the button to call the surface zero. Third-party Qwiic / Stemma QT board: plug it in with the brain off.",
