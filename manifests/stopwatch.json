@@ -3,7 +3,6 @@
   "name": "Stopwatch",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A stopwatch with laps. The LED Button starts and stops, a knob press records a lap (or resets when stopped), the knob scrolls through the last ten laps. Big time on the display, a short beep on every action.",
