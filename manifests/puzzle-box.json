@@ -3,7 +3,6 @@
   "name": "Puzzle Box",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A combination lock for an escape-room puzzle or a treasure box. Turn the knob like a safe dial, press the LED Button to enter each number. Wrong codes lock the box for a while; the host sets the secret code in the app.",
