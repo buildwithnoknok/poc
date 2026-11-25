@@ -3,6 +3,7 @@
   "name": "Power Price Board",
   "version": "1.0.0",
   "author": "buildwithnoknok",
+  "needs": ["internet"],
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "Is electricity cheap right now? The day-ahead wholesale price of a European market zone (default Switzerland) on a noknok Display, with the cheapest two hours ahead, so you can start the washing machine or charge the car when power is cheap. It is the exchange price, not your tariff. Data: Energy-Charts (Fraunhofer ISE, CC BY 4.0). Needs your home Wi-Fi with internet, and the brain library noknok_feeds (not in a brain release yet).",

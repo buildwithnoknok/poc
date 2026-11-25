@@ -14,7 +14,7 @@
 # IMPORTANT: this is the EXCHANGE price (EUR/MWh / 10), NOT your tariff. Your bill has grid fees, taxes
 # and a fixed price or a different tariff. Use it as a hint for WHEN, not for how much.
 # Tomorrow's prices appear around 13:00; before that the board shows what is known. Needs the brain library
-# noknok_feeds (DEV-?). Nothing is written to files. Factory reset = the brain's own gesture.
+# noknok_feeds (brain-Pico, DEV-281). Nothing is written to files. Factory reset = the brain's own gesture.
 
 from noknok import Conductor
 import noknok_feeds as nf
