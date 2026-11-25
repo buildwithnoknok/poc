@@ -3,7 +3,6 @@
   "name": "Desk Guard",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A little alarm for your desk, bag or room. A PIR motion sensor watches the room and an accelerometer feels a bump on the desk. Arm it with the LED Button, leave during the exit delay; movement starts an entry delay, then a siren. Third-party boards (Soldered PIR easyC, MSA311): plug them in with the brain off. A toy for peace of mind, not a security system.",
