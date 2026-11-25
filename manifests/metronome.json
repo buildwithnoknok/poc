@@ -3,7 +3,6 @@
   "name": "Metronome",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "A practice metronome: steady click with an accented first beat, big BPM on the display, one square per beat. Turn the knob for the tempo, press it to tap the beat (tap tempo), the LED Button starts and stops and blinks on every beat.",
