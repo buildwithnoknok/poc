@@ -143,6 +143,19 @@ class ValidatorTest(unittest.TestCase):
         m = self.with_(requires=["i2c_b", "i2c_b"])
         self.assertFails(self.folder(manifest=m), "requires", "twice")
 
+    def test_feeds_import_needs_internet(self):
+        s = GOOD_SCRIPT + "import noknok_feeds as nf\n"
+        self.assertFails(self.folder(script=s), "needs", "internet")
+        rep = self.folder(script=s, manifest=self.with_(needs=["internet"]))
+        self.assertEqual(rep.errors, [])
+        self.assertTrue(any("noknok_feeds" in m for _, m in rep.warnings))
+
+    def test_third_party_board_needs_no_firmware_minimum(self):
+        m = self.with_(modules_required=[{"type": "led_button", "count": 1},
+                                         {"type": "veml7700", "count": 1, "thirdparty": True}])
+        rep = self.folder(manifest=m)
+        self.assertFalse(any("veml7700" in x for _, x in rep.warnings), rep.warnings)
+
     def test_script_missing(self):
         self.assertFails(self.folder(script=None), "script", "missing")
 
