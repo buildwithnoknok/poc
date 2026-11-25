@@ -3,7 +3,6 @@
   "name": "Weather Board",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 1 (I2C only)",
   "description": "The weather for a place you type in the app, on a noknok Display: temperature, the weather in words, wind and rain, and a page with the next 12 hours as bars. The button LED colour follows the weather. Data: Open-Meteo.com (CC BY 4.0). Needs your home Wi-Fi with internet, and the brain library noknok_feeds (not in a brain release yet).",
