@@ -3,7 +3,6 @@
   "name": "Breathing Guide",
   "version": "1.0.0",
   "author": "buildwithnoknok",
-  "brain_type": "pico_w",
   "price": 0.0,
   "setup_pattern": "Setup 3 (USB-C + I2C)",
   "description": "A calm light you breathe with. The LEDs 16x ring fills from the middle while you breathe in, holds, and fades while you breathe out. Three patterns, a session timer, no screen. Turn the knob to pick a pattern, press it to start.",
