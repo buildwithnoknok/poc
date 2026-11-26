@@ -4,6 +4,10 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## catalog 2.9.0 - 2026-11-26
+
+- DEV-281 - three data products listed in the catalog: bus-stop-board-v1, weather-board-v1, power-price-board-v1. They need the brain library `noknok_feeds` (brain-Pico, merged) and the home Wi-Fi (`needs: ["internet"]`). Prototype listing: bench-proven only on weak Wi-Fi, not yet compared with the SBB app at a real stop. Breaking: no.
+
 ## Products + tooling - 2026-11-25 (DEV-278, DEV-281)
 
 - DEV-278 - 13 new products on main (listed in catalog 2.8.0 below): Quiz Buzzers, Reaction Duel, Focus Timer, Puzzle Box, Breathing Guide, Plant Climate Monitor, Desk Guard, Metronome, Dice Roller, Stopwatch, Morse Tapper, Spirit Level, Light Meter (manifest + script each, v1.0.0). Each script read by Sue before merge; validator 0 errors. They enter the catalog only with the catalog PR after the bench PASS per product (Bob). Breaking: no.

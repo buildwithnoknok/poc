@@ -1,6 +1,6 @@
 {
-  "catalog_version": "2.8.0",
-  "updated": "2026-11-25",
+  "catalog_version": "2.9.0",
+  "updated": "2026-11-26",
   "products": [
     { "id": "multicolor-lamp-16x-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/multicolor-lamp-16x.json" },
     { "id": "smart-alarm-maxi-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/smart-alarm-maxi.json" },
@@ -21,6 +21,9 @@
     { "id": "plant-climate-monitor-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/plant-climate-monitor.json" },
     { "id": "desk-guard-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/desk-guard.json" },
     { "id": "spirit-level-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/spirit-level.json" },
-    { "id": "light-meter-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/light-meter.json" }
+    { "id": "light-meter-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/light-meter.json" },
+    { "id": "bus-stop-board-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/bus-stop-board.json" },
+    { "id": "weather-board-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/weather-board.json" },
+    { "id": "power-price-board-v1", "manifest": "https://raw.githubusercontent.com/buildwithnoknok/poc/main/manifests/power-price-board.json" }
   ]
 }
