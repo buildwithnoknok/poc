@@ -52,11 +52,13 @@ FORBIDDEN_MODULES = {
     "adafruit_requests": "network access", "adafruit_httpserver": "network access",
     "storage": "changing the drive", "microcontroller": "the brain's crash counter and Store",
 }
-REVIEW_MODULES = {"wifi": "WiFi access", "noknok_rpc": "the app channel"}
+REVIEW_MODULES = {"wifi": "WiFi access", "noknok_rpc": "the app channel",
+                  "noknok_feeds": "public data from the internet via the brain library (DEV-281)"}
 FORBIDDEN_OS_CALLS = {"remove", "unlink", "rename", "mkdir", "rmdir", "chdir", "getenv", "putenv"}
 SECRET_RE = re.compile(r"(password|passwd|api[_-]?key|secret|token)\s*[=:]\s*['\"][^'\"]{4,}",
                        re.I)
 URL_RE = re.compile(r"https?://", re.I)
+FEEDS_IMPORT_RE = re.compile(r"^\s*(?:import|from)\s+noknok_feeds\b", re.M)
 
 
 class Report:
@@ -186,8 +188,15 @@ def check_manifest(m, schema, rep):
     for t in fw:
         if t not in required:
             rep.error("modules", "module_firmware names %r, which is not in modules_required" % t)
-    for t in sorted(x for x in required if x and x not in fw):
+    # Third-party boards (modules_required[].thirdparty = true, DEV-251) have no firmware: the
+    # authoring guide says to leave them out of module_firmware (F3, DEV-281).
+    third = {r.get("type") for r in m.get("modules_required", [])
+             if isinstance(r, dict) and r.get("thirdparty") is True}
+    for t in sorted(x for x in required if x and x not in fw and x not in third):
         rep.warn("modules", "no firmware minimum for %r (add module_firmware.%s.min)" % (t, t))
+    for t in sorted(x for x in fw if x in third):
+        rep.warn("modules", "module_firmware names %r, a third-party board: it has no firmware "
+                            "minimum, leave it out" % t)
     # DEV-268: brain capabilities. `requires` may be left out (derived from the modules);
     # if it is written, it must not hide a USB module's need for a USB host port.
     req = m.get("requires")
@@ -367,6 +376,11 @@ def validate_manifest_and_files(m, schema, rep, script_for, image_for):
             rep.error("script", "%s (for %s) is missing" % (name, f.get("dest")))
         else:
             check_script(name, text, community, rep)
+            # DEV-281: a product that reads public data must say so in the manifest (the app
+            # shows "needs your home Wi-Fi").
+            if FEEDS_IMPORT_RE.search(text) and "internet" not in (m.get("needs") or []):
+                rep.error("needs", "%s imports noknok_feeds: the manifest must say "
+                                   '"needs": ["internet"]' % name)
     if m.get("image"):
         name, data = image_for(m)
         check_image(name, data, rep)

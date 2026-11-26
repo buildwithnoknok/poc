@@ -4,6 +4,12 @@ Newest first. One entry per version bump, written in the same commit as the bump
 `## <version> - <date>` then `- DEV-xx - what changed and why. Breaking: yes/no.`
 Convention: Confluence "Development Conventions" (SD space, page 120160257).
 
+## Products + tooling - 2026-11-25 (DEV-278, DEV-281)
+
+- DEV-278 - 13 new products on main (not yet in `catalog.json`, so not published): Quiz Buzzers, Reaction Duel, Focus Timer, Puzzle Box, Breathing Guide, Plant Climate Monitor, Desk Guard, Metronome, Dice Roller, Stopwatch, Morse Tapper, Spirit Level, Light Meter (manifest + script each, v1.0.0). Each script read by Sue before merge; validator 0 errors. They enter the catalog only with the catalog PR after the bench PASS per product (Bob). Breaking: no.
+- DEV-281 - `tools/sim/`: the PC product simulator (fake brain + fake clock + scenario tests, 23 groups) moved here from the exploration repo; new products get a logic test before the bench. Breaking: no.
+- DEV-281 - `tools/validate_product.py`: third-party boards no longer get "no firmware minimum" warnings (the authoring guide says to leave them out; naming one in `module_firmware` is now a warning); importing `noknok_feeds` is a review warning and an ERROR unless the manifest says `"needs": ["internet"]` (needs the schema field from Ecosystem PR 5); the three data products now say needs internet. Breaking: no.
+
 ## Scripts - 2026-11-23 (DEV-258)
 
 - DEV-258 - `scripts/button_light.py`: SPDX licence header (MIT) and its own description; the header still described it as the brain-Pico bench product it started from. Found by the validator on the first maker-upload test. Comment-only change, no behaviour change. Breaking: no.

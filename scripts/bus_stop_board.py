@@ -14,7 +14,7 @@
 #
 # Times are minutes until the real departure (scheduled time + delay). If the data cannot be fetched
 # the last board stays on screen, greyed, with its age. Nothing is written to files.
-# Needs the brain library noknok_feeds (DEV-?). Factory reset = the brain's own gesture.
+# Needs the brain library noknok_feeds (brain-Pico, DEV-281). Factory reset = the brain's own gesture.
 
 from noknok import Conductor
 import noknok_feeds as nf

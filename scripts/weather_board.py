@@ -12,8 +12,8 @@
 #   Place    any town name ("Bern", "Lugano", "Zermatt"); it is looked up once with Open-Meteo's geocoder.
 #
 # If the data cannot be fetched the last weather stays on screen, greyed, with its age.
-# Please check Open-Meteo's terms before selling a product that uses it (see data-sources/README.md).
-# Needs the brain library noknok_feeds (DEV-?). Nothing is written to files. Factory reset = the brain's gesture.
+# Please check Open-Meteo's terms before selling a product that uses it (see the data-feeds ADR in the architecture repo).
+# Needs the brain library noknok_feeds (brain-Pico, DEV-281). Nothing is written to files. Factory reset = the brain's gesture.
 
 from noknok import Conductor
 import noknok_feeds as nf
